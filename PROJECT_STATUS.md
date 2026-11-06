@@ -17,12 +17,9 @@
 | [`style.css`](file:///d:/Sandbox/Hanja/style.css) | 프리미엄 다크 글래스모피즘 테마, 리포트 대시보드, **A4 인쇄(`@media print`) 최적화** 디자인 |
 | [`app.js`](file:///d:/Sandbox/Hanja/app.js) | 다회차 전환, **학습 이력 데이터화(`localStorage` 텔레메트리)**, **맞춤형 피드백 리포트 생성/다운로드(.md/.json)** |
 | [`quizData_106.js`](file:///d:/Sandbox/Hanja/quizData_106.js) | **제106회 준4급 가형 50문항 전수 학습 데이터** (문제, 힌트, 핵심 해설, 짝꿍 비교 한자) |
-| [`round_106_study_guide.md`](file:///d:/Sandbox/Hanja/round_106_study_guide.md) | **제106회 50문항 영역별 요약 및 핵심 함정 TOP 7 학습 가이드** |
 | [`quizData.js`](file:///d:/Sandbox/Hanja/quizData.js) | **제111회** 안태주 학생 오답 26문항 전수 구조화 데이터 |
-| [`test_results.json`](file:///d:/Sandbox/Hanja/test_results.json) | 제111회 시험지 50문항 전수 채점 결과 (맞은 문제 24제, 틀린 문제 26제 분리) |
-| [`wrong_answers_analysis.md`](file:///d:/Sandbox/Hanja/wrong_answers_analysis.md) | 제111회 26개 오답 유형별 심층 원인 분석 및 학습 처방전 보고서 |
-| [`exam_report.md`](file:///d:/Sandbox/Hanja/exam_report.md) | 제111회 준4급 8대 영역별 성취도 분석표 및 1~50번 전체 문항 일람표 |
 | [`PROJECT_STATUS.md`](file:///d:/Sandbox/Hanja/PROJECT_STATUS.md) | 프로젝트 진행 상태, 작업 이력 및 컨텍스트 인수인계 문서 |
+| `TestPapers/` | 제106회 및 제111회 기출 시험지·해답지 원본 보관 폴더 |
 
 ---
 
