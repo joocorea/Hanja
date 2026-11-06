@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>안태주의 한자 준4급 기출 학습 & 오답 클리닉</title>
+  <!-- Google Fonts: Pretendard alternative & Noto Serif KR for authentic Hanja typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@600;700;900&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 배경 애니메이션 그라디언트 구체 -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+  <div class="ambient-glow glow-3"></div>
+
+  <!-- 메인 컨테이너 -->
+  <div class="app-container">
+
+    <!-- 상단 회차 선택 스위처 바 -->
+    <div class="round-switcher-bar">
+      <div class="round-switcher-label">
+        <span class="round-icon">📚</span>
+        <span>학습할 시험 회차 선택:</span>
+      </div>
+      <div class="round-buttons">
+        <button class="round-btn active" id="roundBtn106" data-round="106">
+          <span class="round-badge new">NEW</span>
+          <strong>제106회 기출 학습</strong>
+          <span class="round-sub">전체 50문항 실전 풀이</span>
+        </button>
+        <button class="round-btn" id="roundBtn111" data-round="111">
+          <span class="round-badge clinic">클리닉</span>
+          <strong>제111회 오답 클리닉</strong>
+          <span class="round-sub">틀린 26문항 집중 복습</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- 헤더 바 -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="student-badge">
+          <span class="badge-icon">🎓</span>
+          <div class="badge-text">
+            <span class="student-name">안태주 학생</span>
+            <span class="exam-title" id="examHeaderTitle">대한검정회 준4급 제106회 실전 기출 (50문항)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <!-- 탭 모드 전환 버튼 -->
+        <nav class="mode-tabs">
+          <button class="tab-btn active" id="tabAll" data-mode="all">
+            <span id="tabAllLabel">전체 문제</span> <span class="tab-count" id="countAll">50</span>
+          </button>
+          <button class="tab-btn" id="tabConfused" data-mode="confused">
+            <span id="tabConfusedLabel">훈음·자형 특훈</span> <span class="tab-count" id="countConfused">16</span>
+          </button>
+          <button class="tab-btn" id="tabCompound" data-mode="compound">
+            <span id="tabCompoundLabel">어휘·독음 특훈</span> <span class="tab-count" id="countCompound">30</span>
+          </button>
+          <button class="tab-btn" id="tabWrongNote" data-mode="wrong_note">
+            <span>오답 노트</span> <span class="tab-count" id="countWrongNote">0</span>
+          </button>
+          <button class="tab-btn" id="tabFlashcard" data-mode="flashcards">
+            단어장 📖
+          </button>
+          <button class="tab-btn tab-report-btn" id="tabReport" data-mode="report">
+            📊 리포트
+          </button>
+          <button class="tab-btn tab-print-btn" id="tabPrintView" data-mode="print_view">
+            🖨️ 요약프린트
+          </button>
+        </nav>
+      </div>
+
+      <div class="header-right">
+        <!-- 연속 정답 스트릭 -->
+        <div class="streak-pill" id="streakPill" title="연속 정답 횟수">
+          <span class="streak-icon">🔥</span>
+          <span class="streak-num" id="streakCount">0</span>
+          <span class="streak-label">연속</span>
+        </div>
+        <!-- 사운드 토글 -->
+        <button class="icon-btn" id="soundToggle" title="음향 효과 On/Off">
+          <span id="soundIcon">🔊</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- 퀴즈 영역 -->
+    <main class="quiz-main" id="quizMain">
+      
+      <!-- 진행도 및 점수 헤더 -->
+      <div class="quiz-meta-bar">
+        <div class="progress-wrap">
+          <div class="progress-label-row">
+            <div class="progress-left-group">
+              <span class="progress-step-text" id="progressStep">문제 1 / 50</span>
+              <button class="jump-toggle-btn" id="jumpToggleBtn" title="원하는 번호로 바로 이동">
+                🔢 번호 이동 ▾
+              </button>
+            </div>
+            <span class="score-live-text" id="scoreLive">정답 0개</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar-fill" id="progressBarFill" style="width: 2%;"></div>
+          </div>
+        </div>
+
+        <!-- 문항 번호 빠른 이동 패널 (토글) -->
+        <div class="question-jump-panel" id="questionJumpPanel" style="display: none;">
+          <div class="jump-panel-header">
+            <span>원하는 문항 번호를 클릭하면 바로 이동합니다 (🟢정답 / 🔴오답)</span>
+          </div>
+          <div class="jump-grid" id="jumpGrid">
+            <!-- JS에서 번호 버튼 동적 생성 -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 퀴즈 메인 카드 -->
+      <article class="quiz-card" id="quizCard">
+        
+        <!-- 문항 헤더 (문항 번호, 카테고리 태그) -->
+        <div class="card-meta">
+          <div class="meta-tags">
+            <span class="tag tag-number" id="qNumberBadge">제106회 #1번</span>
+            <span class="tag tag-category" id="qCategoryBadge">자형 혼동</span>
+            <span class="tag tag-type" id="qTypeBadge">한자의 훈음</span>
+          </div>
+          <!-- 힌트 토글 버튼 -->
+          <button class="hint-trigger-btn" id="hintTriggerBtn">
+            💡 힌트 보기
+          </button>
+        </div>
+
+        <!-- 힌트 박스 (토글) -->
+        <div class="hint-box" id="hintBox" style="display: none;">
+          <span class="hint-icon">💡</span>
+          <span class="hint-content" id="hintContent">글자 아랫부분을 유심히 보세요.</span>
+        </div>
+
+        <!-- 한자 디스플레이 박스 -->
+        <div class="hanja-hero" id="hanjaHero">
+          <div class="hanja-char" id="hanjaChar">億</div>
+          <div class="hanja-prompt" id="hanjaPrompt">다음 한자의 훈음으로 바른 것을 고르시오.</div>
+        </div>
+
+        <!-- 학생의 이전 시험 답안 알림 배너 -->
+        <div class="previous-mistake-banner" id="previousMistakeBanner">
+          <span class="warn-icon">⚠️</span>
+          <span>지난 시험에서 안태주 학생이 고른 답: <strong>1번 (효도 효)</strong> - 이번엔 꼭 맞춰보세요!</span>
+        </div>
+
+        <!-- 4지선다 보기 리스트 -->
+        <div class="options-grid" id="optionsGrid">
+          <!-- JS에서 4개 버튼 동적 렌더링 -->
+        </div>
+
+        <!-- 키보드 안내 -->
+        <div class="keyboard-tip">
+          <span>⌨️ 키보드 숫자키 <strong>1, 2, 3, 4</strong>로 선택하고, <strong>Enter</strong>로 다음 문제로 이동할 수 있습니다.</span>
+        </div>
+
+        <!-- 결과 및 오답 처방전 (정답/오답 제출 시 등장) -->
+        <section class="prescription-panel" id="prescriptionPanel" style="display: none;">
+          <div class="prescription-header" id="prescriptionStatus">
+            <div class="status-icon" id="statusIcon">⭕</div>
+            <div class="status-text-wrap">
+              <h3 class="status-title" id="statusTitle">완벽합니다! 정답이에요.</h3>
+              <p class="status-subtitle" id="statusSubtitle">정답: 2번 억 억</p>
+            </div>
+          </div>
+
+          <!-- 처방전 상세 설명 -->
+          <div class="prescription-body">
+            <div class="rx-section">
+              <h4 class="rx-label">🩺 선생님의 핵심 해설 및 포인트</h4>
+              <p class="rx-desc" id="rxAnalysis">해설이 이곳에 표시됩니다.</p>
+            </div>
+
+            <!-- 핵심 한자 비교 카드 (있을 경우) -->
+            <div class="rx-comparison" id="rxComparisonWrap">
+              <h4 class="rx-label">🔍 헷갈리는 짝꿍 한자 비교 분석</h4>
+              <div class="comparison-cards" id="comparisonCards">
+                <!-- JS에서 비교 카드 렌더링 -->
+              </div>
+            </div>
+          </div>
+
+          <!-- 다음 버튼 -->
+          <div class="prescription-footer">
+            <button class="secondary-btn" id="prevQuestionBtn" style="margin-right: auto;">
+              ⬅ 이전 문제
+            </button>
+            <button class="primary-action-btn" id="nextQuestionBtn">
+              다음 문제로 이동 ➔
+            </button>
+          </div>
+        </section>
+
+      </article>
+
+    </main>
+
+    <!-- 플래시카드 단어장 뷰 (탭 전환 시 표시) -->
+    <section class="flashcards-view" id="flashcardsView" style="display: none;">
+      <div class="flashcards-header">
+        <h2 id="flashcardsTitle">📖 제106회 준4급 핵심 50문항 단어장</h2>
+        <p>카드를 클릭하면 앞면(문제 한자)과 뒷면(정답 및 비교 해설)이 회전합니다.</p>
+      </div>
+      <div class="flashcards-grid" id="flashcardsGrid">
+        <!-- JS로 플래시카드 렌더링 -->
+      </div>
+    </section>
+
+    <!-- 학습 데이터 & 맞춤형 피드백 리포트 뷰 -->
+    <section class="report-view" id="reportView" style="display: none;">
+      <div class="report-top-bar">
+        <div class="report-title-group">
+          <div class="report-badge-row">
+            <span class="report-tag-pill" id="reportRoundBadge">제106회 실전 기출</span>
+            <span class="report-timestamp" id="reportTimestamp">기준 일시: 2026-11-05</span>
+          </div>
+          <h2 class="report-main-title" id="reportMainTitle">📊 안태주 학생 맞춤형 학습 데이터 & 피드백 리포트</h2>
+          <p class="report-subtitle" id="reportSubtitle">학습 과정의 모든 시도·정오답 변화·힌트 활용 데이터를 분석하여 생성된 맞춤형 진단서입니다.</p>
+        </div>
+        <div class="report-action-btns no-print">
+          <button class="report-btn primary" id="btnOpenPrintViewFromReport" title="시험장·책상용 짝꿍 한자 및 핵심 오답 A4 요약장 뷰로 이동합니다">
+            📄 시험장 요약장(프린트 뷰)
+          </button>
+          <button class="report-btn" id="btnPrintReport" title="현재 대시보드를 A4 성적표 형태로 인쇄하거나 PDF로 저장합니다">
+            🖨️ 리포트 전체 인쇄
+          </button>
+          <button class="report-btn" id="btnDownloadMdReport" title="마크다운(.md) 문서로 피드백 리포트를 다운로드합니다">
+            📥 리포트(.md) 다운로드
+          </button>
+          <button class="report-btn" id="btnDownloadJsonData" title="누적된 학습 원본 데이터를 JSON 파일로 백업합니다">
+            💾 데이터(.json) 저장
+          </button>
+          <button class="report-btn danger" id="btnResetTelemetry" title="현재 회차의 누적 학습 기록을 초기화합니다">
+            🗑️ 기록 초기화
+          </button>
+        </div>
+      </div>
+
+      <!-- 1. 핵심 학습 지표 (KPI 4종) -->
+      <div class="report-kpi-grid" id="reportKpiGrid">
+        <!-- JS 동적 렌더링 -->
+      </div>
+
+      <!-- 2. 맞춤형 선생님 종합 피드백 및 학습 처방전 -->
+      <div class="report-section-card feedback-prescription-card">
+        <div class="report-section-header">
+          <h3>🩺 AI 선생님의 종합 학습 진단 & 맞춤 처방전</h3>
+          <span class="report-status-pill" id="reportGradeBadge">분석 완료</span>
+        </div>
+        <div class="report-feedback-body" id="reportFeedbackBody">
+          <!-- JS 동적 렌더링 -->
+        </div>
+      </div>
+
+      <!-- 3. 출제 영역/유형별 성취도 분석표 -->
+      <div class="report-section-card">
+        <div class="report-section-header">
+          <h3>📈 영역별 성취도 및 취약 유형 분석</h3>
+          <span class="report-section-sub">문항 유형별 정답률과 성취 수준 평가</span>
+        </div>
+        <div class="report-table-wrap">
+          <table class="report-table">
+            <thead>
+              <tr>
+                <th>출제 영역 / 유형</th>
+                <th class="text-center">문항 수</th>
+                <th class="text-center">풀이 완료</th>
+                <th class="text-center">정답 / 오답</th>
+                <th>성취도 (정답률)</th>
+                <th class="text-center">수준 진단</th>
+              </tr>
+            </thead>
+            <tbody id="reportCategoryTableBody">
+              <!-- JS 동적 렌더링 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 4. 집중 보완이 필요한 취약 문항 클리닉 -->
+      <div class="report-section-card" id="reportWeakSection">
+        <div class="report-section-header">
+          <div>
+            <h3>🎯 집중 보완이 필요한 오답·취약 문항 상세 분석</h3>
+            <span class="report-section-sub">틀렸거나 여러 번 시도한 문항의 오답 원인과 핵심 암기 포인트입니다.</span>
+          </div>
+          <button class="primary-action-btn report-clinic-btn no-print" id="btnStartWeakClinic">
+            ⚡ 취약 문항만 즉시 특훈하기
+          </button>
+        </div>
+        <div class="report-weak-list" id="reportWeakList">
+          <!-- JS 동적 렌더링 -->
+        </div>
+      </div>
+
+      <!-- 5. 전체 문항 학습 이력 데이터 일람표 -->
+      <div class="report-section-card">
+        <div class="report-section-header">
+          <div>
+            <h3>📋 전체 문항 학습 데이터 일람표</h3>
+            <span class="report-section-sub">문항별 시도 횟수, 정오답 변화 추이(❌➔⭕), 힌트 열람 여부, 선택 답안 기록</span>
+          </div>
+          <div class="report-filter-pills no-print" id="reportTableFilters">
+            <button class="filter-pill active" data-filter="all">전체</button>
+            <button class="filter-pill" data-filter="unsolved_wrong">미해결 오답 🔴</button>
+            <button class="filter-pill" data-filter="mastered">오답 정복 🟢</button>
+            <button class="filter-pill" data-filter="first_correct">한 번에 정답 🔵</button>
+            <button class="filter-pill" data-filter="unattempted">미풀이 ⚪</button>
+          </div>
+        </div>
+        <div class="report-table-wrap">
+          <table class="report-table compact-table">
+            <thead>
+              <tr>
+                <th class="text-center">번호</th>
+                <th>유형 / 카테고리</th>
+                <th>제시 한자·문제</th>
+                <th class="text-center">학습 상태</th>
+                <th class="text-center">시도 추이</th>
+                <th>태주의 선택 vs 정답</th>
+                <th class="text-center">힌트</th>
+              </tr>
+            </thead>
+            <tbody id="reportAllQuestionsTableBody">
+              <!-- JS 동적 렌더링 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 시험장·책상용 프린트 전용 뷰 (A4 짝꿍 한자 & 핵심 오답 요약장) -->
+    <section class="print-sheet-view" id="printSheetView" style="display: none;">
+      <!-- 인쇄 옵션 컨트롤 바 (화면에서만 표시, 인쇄 시 자동 숨김) -->
+      <div class="print-toolbar no-print">
+        <div class="print-toolbar-left">
+          <div class="print-control-group">
+            <span class="print-control-label">📄 출력 파트:</span>
+            <div class="print-pill-group" id="printPartGroup">
+              <button class="print-opt-pill active" data-part="both">📑 Part 1+2 함께</button>
+              <button class="print-opt-pill" data-part="part1">🔍 Part 1만 (짝꿍 비교표)</button>
+              <button class="print-opt-pill" data-part="part2">✍️ Part 2만 (3번 쓰기장)</button>
+            </div>
+          </div>
+          <div class="print-control-group">
+            <span class="print-control-label">📌 수록 범위:</span>
+            <div class="print-pill-group" id="printScopeGroup">
+              <button class="print-opt-pill active" data-scope="weak">🔥 핵심 오답·함정만</button>
+              <button class="print-opt-pill" data-scope="confused">🔍 짝꿍·자형 혼동만</button>
+              <button class="print-opt-pill" data-scope="all">📚 회차 전체 요약</button>
+            </div>
+          </div>
+          <div class="print-control-group">
+            <span class="print-control-label">✏️ 훈음 표시:</span>
+            <div class="print-pill-group" id="printMaskGroup">
+              <button class="print-opt-pill active" data-mask="false">👀 훈음 표시 (보고 쓰기)</button>
+              <button class="print-opt-pill" data-mask="true">✏️ 훈음 빈칸 (외워 쓰기)</button>
+            </div>
+          </div>
+        </div>
+        <div class="print-toolbar-right">
+          <button class="report-btn" id="btnBackToReportFromPrint">
+            📊 리포트로 돌아가기
+          </button>
+          <button class="report-btn" id="btnPrintPart1Only" title="Part 1 (짝꿍 한자 비교표)만 따로 인쇄합니다">
+            🖨️ Part 1만 인쇄
+          </button>
+          <button class="report-btn" id="btnPrintPart2Only" title="Part 2 (한자·훈음 3번 쓰기장)만 따로 인쇄합니다">
+            🖨️ Part 2만 인쇄
+          </button>
+          <button class="report-btn primary" id="btnExecutePrintSheet">
+            🖨️ 현재 화면 인쇄 / PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- 실제 인쇄될 A4 페이퍼 시트 영역 -->
+      <div class="a4-print-sheet" id="a4PrintSheet">
+        <!-- 시트 상단 헤더 -->
+        <header class="sheet-header">
+          <div class="sheet-header-left">
+            <div class="sheet-badge-line">
+              <span class="sheet-round-tag" id="printSheetRoundTag">대한검정회 준4급 제106회</span>
+              <span class="sheet-mode-tag" id="printSheetModeTag">시험장·책상용 핵심 요약장</span>
+            </div>
+            <h1 class="sheet-main-title" id="printSheetTitle">안태주 학생 전용 짝꿍 한자 & 3회 반복 쓰기 훈련장</h1>
+            <p class="sheet-subtitle" id="printSheetSubtitle">부수 한 획 차이로 헷갈리는 짝꿍 한자와 핵심 한자·훈음 3번 따라 쓰기 연습장입니다.</p>
+          </div>
+          <div class="sheet-header-right">
+            <div class="sheet-student-box">
+              <div class="sheet-student-row"><strong>성명:</strong> 안태주</div>
+              <div class="sheet-student-row" id="printSheetDateRow"><strong>출력일:</strong> 2026-11-06</div>
+            </div>
+            <div class="sheet-review-checks">
+              <span>☐ 1회독</span>
+              <span>☐ 2회독</span>
+              <span>☐ 시험직전</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- PART 1: 헷갈리는 짝꿍 한자 비교표 -->
+        <div class="sheet-section" id="printPart1Section">
+          <div class="sheet-sec-header">
+            <h2>🔍 PART 1. 시험장 필수 구별! 헷갈리는 짝꿍 한자 비교표</h2>
+            <span class="sheet-sec-count" id="printPart1Count">핵심 비교 그룹</span>
+          </div>
+          <div class="sheet-comp-grid" id="printComparisonGrid">
+            <!-- JS 동적 렌더링 -->
+          </div>
+        </div>
+
+        <!-- PART 2: 한자 & 훈음 3번 따라 쓰기 연습장 -->
+        <div class="sheet-section" id="printPart2Section">
+          <div class="sheet-sec-header">
+            <h2>✍️ PART 2. 핵심 한자 & 훈음(뜻·음) 3번 따라 쓰기 연습장</h2>
+            <span class="sheet-sec-count" id="printPart2Count">손으로 3번 직접 써보며 완벽히 외우세요!</span>
+          </div>
+          <table class="sheet-checklist-table sheet-writing-table">
+            <colgroup>
+              <col class="col-model-width">
+              <col class="col-write-width">
+              <col class="col-write-width">
+              <col class="col-write-width">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="col-model">본보기</th>
+                <th class="col-write">1회 쓰기</th>
+                <th class="col-write">2회 쓰기</th>
+                <th class="col-write">3회 쓰기</th>
+              </tr>
+            </thead>
+            <tbody id="printChecklistTableBody">
+              <!-- JS 동적 렌더링 -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- PART 3: 빈칸 모드일 때 하단에 표시되는 빠른 정답 확인표 -->
+        <div class="sheet-section sheet-answer-key" id="printAnswerKeySection" style="display: none;">
+          <div class="sheet-sec-header">
+            <h2>✂️ PART 3. 외워 쓰기 확인용 본보기 훈음 정답표</h2>
+            <span class="sheet-sec-count">접어두고 먼저 연필로 한자와 훈음을 3번씩 써보세요!</span>
+          </div>
+          <div class="sheet-answer-key-grid" id="printQuickAnswerKey">
+            <!-- JS 동적 렌더링 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 퀴즈 완료 결과 화면 -->
+    <section class="completion-view" id="completionView" style="display: none;">
+      <div class="completion-card">
+        <div class="celebration-badge">🏆</div>
+        <h2 class="completion-title" id="completionTitle">학습 완료!</h2>
+        <p class="completion-subtitle" id="completionSubtitle">안태주 학생, 끝까지 집중해서 모든 문제를 풀었습니다!</p>
+
+        <div class="score-circle-wrap">
+          <div class="score-circle">
+            <span class="score-big" id="finalScoreText">100%</span>
+            <span class="score-sub" id="finalCountText">50 / 50 정답</span>
+          </div>
+        </div>
+
+        <div class="completion-stats-row">
+          <div class="stat-box">
+            <span class="stat-val" id="finalCorrectCount">50</span>
+            <span class="stat-name">맞힌 문제</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-val" id="finalWrongCount">0</span>
+            <span class="stat-name">틀린 문제</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-val" id="finalMaxStreak">15</span>
+            <span class="stat-name">최고 연속 정답</span>
+          </div>
+        </div>
+
+        <div class="completion-actions">
+          <button class="secondary-btn" id="openReportFromCompletionBtn">
+            📊 상세 피드백 리포트 보기
+          </button>
+          <button class="secondary-btn" id="retryWrongOnlyBtn" style="display: none;">
+            ⚠️ 방금 틀린 문제만 다시 풀기
+          </button>
+          <button class="primary-action-btn" id="restartQuizBtn">
+            🔄 처음부터 다시 도전하기
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- 캔버스 컨페티 효과 -->
+  <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+
+  <!-- 데이터 및 스크립트 연결 -->
+  <script src="quizData.js"></script>
+  <script src="quizData_106.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
