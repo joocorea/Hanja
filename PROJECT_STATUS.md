@@ -4,7 +4,7 @@
 - **목적**: 한자 시험지/학습 자료 관리, 한자 인식 및 학생 맞춤형 학습 지원 시스템
 - **작업 경로**: `d:\Sandbox\Hanja`
 - **시작일**: 2026-11-01
-- **최근 갱신일**: 2026-11-06
+- **최근 갱신일**: 2026-11-08
 - **대상 학생**: 안태주 (대한검정회 준4급 시험 대비)
 
 ---
@@ -13,17 +13,74 @@
 
 | 파일명 | 역할 및 설명 |
 | :--- | :--- |
-| [`index.html`](file:///d:/Sandbox/Hanja/index.html) | 다회차(106회·111회) 기출 학습, 오답 클리닉 및 **📊 학습 데이터·피드백 리포트 대시보드** 메인 구조 |
-| [`style.css`](file:///d:/Sandbox/Hanja/style.css) | 프리미엄 다크 글래스모피즘 테마, 리포트 대시보드, **A4 인쇄(`@media print`) 최적화** 디자인 |
-| [`app.js`](file:///d:/Sandbox/Hanja/app.js) | 다회차 전환, **학습 이력 데이터화(`localStorage` 텔레메트리)**, **맞춤형 피드백 리포트 생성/다운로드(.md/.json)** |
-| [`quizData_106.js`](file:///d:/Sandbox/Hanja/quizData_106.js) | **제106회 준4급 가형 50문항 전수 학습 데이터** (문제, 힌트, 핵심 해설, 짝꿍 비교 한자) |
-| [`quizData.js`](file:///d:/Sandbox/Hanja/quizData.js) | **제111회** 안태주 학생 오답 26문항 전수 구조화 데이터 |
+| [`index.html`](file:///d:/Sandbox/Hanja/index.html) | 다회차(111회 전체 50문항·103회 가형·가-1형·104회·105회·106회·111회 오답 26문항) 기출 학습, **📊 리포트** 및 **📝 맞춤시험지·요점노트 생성기** 메인 구조 |
+| [`style.css`](file:///d:/Sandbox/Hanja/style.css) | 프리미엄 다크 글래스모피즘 테마, 리포트 대시보드, **실전 2단 종이 시험지 & 요점 노트 A4 인쇄(`@media print`) 최적화** 디자인 |
+| [`app.js`](file:///d:/Sandbox/Hanja/app.js) | 다회차 전환(7개 회차 총 326문항), **학습 이력 데이터화**, **맞춤형 종이 시험지 & 요점 노트 생성기(영구 보존 Vault & IndexedDB 이중 백업)** |
+| [`quizData_111_full.js`](file:///d:/Sandbox/Hanja/quizData_111_full.js) | **제111회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자 및 기존 오답 마킹 연동) |
+| [`quizData_103.js`](file:///d:/Sandbox/Hanja/quizData_103.js) | **제103회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
+| [`quizData_103_1.js`](file:///d:/Sandbox/Hanja/quizData_103_1.js) | **제103회 준4급 가-1형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
+| [`quizData_104.js`](file:///d:/Sandbox/Hanja/quizData_104.js) | **제104회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
+| [`quizData_105.js`](file:///d:/Sandbox/Hanja/quizData_105.js) | **제105회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
+| [`quizData_106.js`](file:///d:/Sandbox/Hanja/quizData_106.js) | **제106회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
+| [`quizData.js`](file:///d:/Sandbox/Hanja/quizData.js) | **제111회** 안태주 학생 오답 26문항 전수 구조화 데이터 (43번 `和右`, 45번 `賣國` 정규 시험지 PDF 기준 정밀 보정 완료) |
+| [`firebase.json`](file:///d:/Sandbox/Hanja/firebase.json) / [`.firebaserc`](file:///d:/Sandbox/Hanja/.firebaserc) | **Firebase Hosting (`hanja-world`)** 라이브 배포 설정 (`https://hanja-world.web.app`) |
 | [`PROJECT_STATUS.md`](file:///d:/Sandbox/Hanja/PROJECT_STATUS.md) | 프로젝트 진행 상태, 작업 이력 및 컨텍스트 인수인계 문서 |
-| `TestPapers/` | 제106회 및 제111회 기출 시험지·해답지 원본 보관 폴더 |
+| `TestPapers/` | 제103회(가형/가-1형), 제104회, 제105회, 제106회 및 제111회 기출 시험지·해답지 원본 보관 폴더 |
 
 ---
 
-## 🚀 오늘(2026-11-06) 완료된 작업 (전원 차단 손상 파일 무결성 복구 & 🖨️ 요약프린트 Part 1/Part 2 개별 인쇄·3회 쓰기장 업그레이드)
+## 🚀 오늘(2026-11-08) 완료된 작업 (「📝 맞춤시험지·요점노트」 실전 종이 시험지 생성기 & 영구 보존 데이터화 시스템 구축)
+
+1. **회차별 문항 번호 선택 기반 「📝 맞춤시험지·요점노트」 생성기 구축 ([`index.html`](file:///d:/Sandbox/Hanja/index.html), [`app.js`](file:///d:/Sandbox/Hanja/app.js), [`style.css`](file:///d:/Sandbox/Hanja/style.css))**:
+   - 상단 네비게이션 탭에 **`📝 맞춤시험지·요점노트`** 탭 및 선택 문항 수 배지(`#countPaperSelected`) 추가, 문제 풀이 카드 상단에도 **`📝 시험지 담기`** 토글 버튼 연동.
+   - **문항 번호 다중 선택 방식 3종**:
+     1. **1~50번 인터랙티브 번호 칩 그리드 (`#paperNumGrid`)**: 각 번호와 대표 한자를 보며 클릭으로 즉시 선택/해제 (기존 오답 이력이 있는 문항은 붉은 테두리로 자동 표시).
+     2. **빠른 번호 직접 입력창 (`#paperDirectNumberInput`)**: 종이 시험지에서 틀린 번호(예: `2, 5, 9, 14-18, 24`)를 입력해 한 번에 선택.
+     3. **원클릭 자동 선별 버튼**: **`🔥 오답 문항 자동 선택`**, **`🔍 함정·혼동 문항 선택`**, **`✅ 전체 선택`**, **`🔄 현재 회차 선택 해제`**.
+   - **단일 회차 / 전 회차 통합 출제 지원**: 현재 회차에서 선택한 문항만 시험지로 만들거나, 103회~111회 여러 회차에서 고른 틀린 문제들을 **단 하나의 통합 시험지**로 합쳐서 출제 가능.
+   - **실제 대한검정회 준4급 스타일 A4 2단 종이 시험지 레이아웃**:
+     - 상단 수험표 헤더(응시급수 준4급, 성명 안태주, 시험일자, 점수 기입란) + **2단 다단(`column-count: 2`) 실전 시험지 포맷** + 원문자 보기(`① ② ③ ④`) + 하단 절취선 채점용 빠른 정답표 자동 생성.
+2. **선택 문항 간략 정리 「💡 핵심 요점 정리 노트」 초고밀도(Compact) 개편 및 데이터화**:
+   - 선택된 각 문항을 분석하여 **`buildConciseSummaryNoteData()`** 구조화 데이터(핵심 한자, 훈음, 정답, 1~2문장 압축 핵심 요점, 헷갈리는 짝꿍 비교 한자)로 자동 변환 및 영구 보존.
+   - **한 페이지 최대 수록 컴팩트 레이아웃**: 표 헤더를 **`확인` (`6%`) | `핵심 한자` (`16%`) | `선생님 한 줄 핵심 요점` (`78%`)** 으로 구성하고, 불필요한 중복 텍스트(회차·번호, 카테고리, 정답 박스, 짝꿍 비교 칩)를 제거하여 **`☐` 체크박스 + `핵심 한자·훈음` + `[핵심요점] 설명` + `✏️ 나의 암기 메모: [수기 필기용 빈칸 밑줄]`** 만 남김으로써 A4 한 페이지당 문항 수록량을 2.5~3배 이상 극대화.
+   - **`🖨️ 시험지만 인쇄`**, **`🖨️ 요점노트만 인쇄`**, **`🖨️ 현재 구성 인쇄 / PDF`** 개별 인쇄 완벽 지원.
+3. **절대 지워지지 않는 4중 영구 데이터 보존(Permanent Vault) 아키텍처 적용**:
+   - **초기화 격리 보호**: 리포트 탭에서 `🗑️ 기록 초기화`를 눌러도 맞춤 시험지 선택 문항, 요점 노트 메모, 보관함 프리셋(`taeju_hanja_paper_exam_vault_v1`)은 절대 삭제되지 않도록 완전히 분리.
+   - **브라우저 영구 스토리지(`navigator.storage.persist()`) + `localStorage` 주/예비 키 + `IndexedDB`(`TaejuHanjaPermanentDB`) 자동 이중 백업**: 캐시 정리 등으로 `localStorage`가 비워져도 앱 기동 시 `IndexedDB`에서 자동 복원.
+   - **나만의 시험지 보관함 (`📌 선택 세트 보관함에 저장`)**: 날짜별·주제별 오답 시험지 세트를 이름 붙여 무제한 영구 보관하고 언제든 원클릭으로 다시 불러오기 가능.
+   - **파일 영구 백업 및 문서 내보내기**: **`💾 요점데이터(.json) 백업`**, **`📂 데이터(.json) 불러오기`(기존 데이터와 안전 병합)**, **`📥 요점노트(.md) 저장`** 지원.
+
+4. **제111회 정규 50문항 전체 풀이 데이터 구축 및 7개 회차(326문항) 연동 완료 ([`quizData_111_full.js`](file:///d:/Sandbox/Hanja/quizData_111_full.js), [`quizData.js`](file:///d:/Sandbox/Hanja/quizData.js), [`index.html`](file:///d:/Sandbox/Hanja/index.html), [`app.js`](file:///d:/Sandbox/Hanja/app.js))**:
+   - `TestPapers/111회/111회_정규_준4급_가형_260523_문제.pdf` 및 정답 PDF의 1번~50번 전체 문항을 100% 정밀 판독하여 [`quizData_111_full.js`](file:///d:/Sandbox/Hanja/quizData_111_full.js) 구축 완료.
+   - 기존 사진 판독 시 미세하게 달랐던 [`quizData.js`](file:///d:/Sandbox/Hanja/quizData.js)의 43번 보기 ②(`和石` ➔ `和右`) 및 45번 보기 ③(`貴國` ➔ `賣國(매국, 술목관계)`)까지 공식 정답지 PDF 기준으로 100% 일치하도록 정밀 보정.
+   - 상단 드롭다운(`#roundSelect`)에 **`제111회 기출 학습 - 가형 (전체 50문항 실전 풀이)`**를 추가하여 총 **7개 회차(326문항)** 전 회차 학습·리포트·요약프린트·맞춤시험지 생성 연동 완료.
+
+5. **Git 원격 저장소(`https://github.com/joocorea/Hanja.git`) 백업 Push 및 Firebase(`https://hanja-world.web.app`) 7개 회차(326문항) 라이브 재배포 완료**:
+   - 새롭게 구축한 `제111회 정규 50문항(quizData_111_full.js)`, `📝 맞춤시험지·요점노트` 생성기 및 초고밀도 요점 노트 레이아웃을 포함한 핵심 웹앱 파일 11개를 `https://hanja-world.web.app` 라이브 서버에 배포하고 GitHub 원격 저장소에 백업 Push 완료.
+
+---
+
+## 🚀 어제(2026-11-07) 완료된 작업 (제103회 가형·가-1형, 제104회, 제105회 총 200문항 전수 학습 구축 & 6개 회차 드롭다운 연동)
+
+1. **제103회 준4급 가형 & 가-1형 시험지·해답지 PDF 총 100문항(50문항 × 2세트) 전수 데이터화 ([`quizData_103.js`](file:///d:/Sandbox/Hanja/quizData_103.js), [`quizData_103_1.js`](file:///d:/Sandbox/Hanja/quizData_103_1.js))**:
+   - `TestPapers/103회/대한검정회 준4급 103회(문제).pdf`(가형) 및 `대한검정회 준4급 103회(가-1)(문제).pdf`(가-1형)과 각 해답지 PDF의 1~50번 문항이 서로 다른 별개 시험지임을 확인하여 **2개 회차(총 100문항) 모두 100% 정밀 판독·전산화**.
+   - 모든 문항에 대해 정답을 직접 노출하지 않는 **간접 유도형 1단계 힌트(`hint`)**, **선생님의 핵심 해설(`analysis`)**, **헷갈리는 짝꿍 한자 비교 카드(`comparison`)** 완비.
+   - **제103회(가형) 핵심 함정 포인트**: `漁(고기잡을 어) vs 魚(물고기 어)`, `席(자리 석) vs 位(자리 위)`, `樂(노래 악: 樂工·風樂·樂曲 vs 좋아할 요: 樂水 요수)`, `秋(벼 화 禾 부수 4획, 총 9획)`, `充足(충족: 넉넉할 족 足)`, `責問(책문: 물을 문 問 vs 들을 문 聞)`, `格言(격언: 格 vs 各)`, `洗手≠洗足`, `山戰水戰(산전수전)`.
+   - **제103회(가-1형) 핵심 함정 포인트**: `注(물댈 주) vs 住(살 주) vs 主 vs 州`, `末(끝 말: 위 가로획이 김) vs 本(근본 본)`, `畫(그림 화: 圖畫·油畫·畫室 vs 그을 획: 畫順 획순)`, `訓(말씀 언 言 부수 3획, 총 10획)`, `才氣(재기: 재주 있는 기질) vs 再起(다시 일어섬)`, `化石(화석: 될 화 化 vs 꽃 화 花, 돌 석 石 vs 오른 우 右)`, `火食(화식)↔生食(생식)`, `交友以信(교우이신)`, `二十四절기(24절기)`.
+2. **제104회 준4급 가형 시험지 & 해답지 PDF 50문항 전수 데이터화 ([`quizData_104.js`](file:///d:/Sandbox/Hanja/quizData_104.js))**:
+   - `TestPapers/104회/대한검정회 준4급 104회(문제).pdf` 및 해답지 PDF의 1번~50번 전체 문항을 100% 정밀 판독하여 전산화.
+   - 영역별 특훈 자동 분류: **전체 문제(50문항)** / **훈음·자형 특훈(18문항)** / **어휘·독음 특훈(27문항)** / **3D 플래시카드 단어장(50문항)**.
+   - 제104회 핵심 함정 포인트 완벽 반영: `便(편할 편 vs 똥오줌 변: 不便 vs 血便·便所·用便)`, `邑(고을 읍: 제부수 함정)`, `要路(요로: 둘째 글자 본음 유지)`, `韓服(한복: 4개 보기 동음이의어)`, `太古(태고: 太 vs 大 vs 犬, 古 vs 告)`, `名醫(명의: 醫 vs 衣)`, `同窓↔同門(유의어 함정)`, `上元(정월대보름)`.
+3. **제105회 준4급 가형 시험지 & 해답지 PDF 50문항 전수 데이터화 ([`quizData_105.js`](file:///d:/Sandbox/Hanja/quizData_105.js))**:
+   - `TestPapers/105회/대한검정회 준4급 105회(문제).pdf` 및 해답지 PDF의 1번~50번 전체 문항을 100% 정밀 판독하여 전산화.
+   - 제105회 핵심 함정 포인트 완벽 반영: `不(불/부: 不正 부정 vs 不和·不利·不信)`, `功勞(공로: 둘째 글자 본음 유지)`, `例事(예사: 첫 글자 두음법칙)`, `赤字(적자: 글자 자 字) vs 赤子(갓난아이)`, `行事(행사: 4개 보기 동음이의어)`, `落陽↔夕陽(유의어 함정)`.
+4. **상단 다회차 스위처 드롭다운(`<select>`) 6개 회차(총 276문항) 연동 ([`index.html`](file:///d:/Sandbox/Hanja/index.html), [`style.css`](file:///d:/Sandbox/Hanja/style.css), [`app.js`](file:///d:/Sandbox/Hanja/app.js))**:
+   - `제103회(가형 50문항)`, `제103회(가-1형 50문항)`, `제104회(50문항)`, `제105회(50문항)`, `제106회(50문항)`, `제111회 오답 클리닉(26문항)` 총 **6개 회차(276문항)**를 드롭다운에서 즉시 전환 가능.
+   - 전 회차에서 **`📊 리포트`(회차별 독립 `localStorage` 텔레메트리)** 및 **`🖨️ 요약프린트`(Part 1 짝꿍 한자 비교표 / Part 2 한자·훈음 3번 따라 쓰기 연습장)**가 100% 동일하게 작동하도록 구성 완료.
+
+---
+
+## 🚀 어제(2026-11-06) 완료된 작업 (전원 차단 손상 파일 무결성 복구 & 🖨️ 요약프린트 Part 1/Part 2 개별 인쇄·3회 쓰기장 업그레이드)
 
 1. **갑작스러운 PC 전원 차단으로 손상된 [`style.css`](file:///d:/Sandbox/Hanja/style.css) 100% 무결성 복구 완료**:
    - **원인 진단**: 갑작스러운 전원 차단 당시 Windows NTFS 파일 쓰기 버퍼 손실로 인해 [`style.css`](file:///d:/Sandbox/Hanja/style.css)(`47,353 bytes`) 전체가 `0x00`(NULL 바이트)로 덮어씌워져 브라우저에서 디자인이 완전히 해제된 기본 흰색 HTML 화면으로 출력되던 현상 규명 (나머지 9개 워크스페이스 파일은 `0` NULL 바이트 정상 확인).
@@ -41,6 +98,8 @@
 3. **GitHub 원격 저장소 연동(`https://github.com/joocorea/Hanja.git`) 및 워크스페이스 불필요 파일 정리 완료**:
    - `d:\Sandbox\Hanja` 전용 Git 저장소 초기화 후 `https://github.com/joocorea/Hanja.git` (`main` 브랜치)에 전체 프로젝트 Push 완료.
    - 불필요한 임시 작업 폴더(`scratch/` 24개 파일) 및 웹앱 기능과 중복되는 초기 정적 문서 4개(`test_results.json`, `exam_report.md`, `wrong_answers_analysis.md`, `round_106_study_guide.md`)를 영구 정리하여 핵심 파일만 깔끔하게 유지.
+4. **Firebase Hosting (`hanja-world`) 라이브 서버 배포 완료 (`https://hanja-world.web.app`)**:
+   - [`firebase.json`](file:///d:/Sandbox/Hanja/firebase.json) 및 [`.firebaserc`](file:///d:/Sandbox/Hanja/.firebaserc) 구성 후 Firebase **Hanja (`hanja-world`)** 프로젝트에 정식 호스팅 배포 완료 (`https://hanja-world.web.app` / `https://hanja-world.firebaseapp.com`).
 
 ---
 
@@ -86,16 +145,42 @@
 
 ---
 
-## 📋 다음 세션 남은 과제 (TODO)
-1. **안태주 학생의 제106회 실전 학습 및 리포트/요약프린트 실사용 피드백 반영**:
-   - 태주 학생이 106회 50문항을 풀고 난 뒤 생성된 `📊 리포트`와 `🖨️ 요약프린트`를 바탕으로 취약 유형 최종 점검
-2. **신규 회차 기출문제 추가 확장 (예: 107~110회 등)**:
-   - `TestPapers` 폴더에 새 회차 시험지/해답지 추가 시 다회차 스위처 연동 확장
-3. **주관식 한자 쓰기/필순 훈련 기능 확장 (선택 사항)**
+## 📋 다음 세션 남은 과제 (TODO — 새 대화창 이어달리기 1순위)
+1. **제100회 ~ 제102회 기출 시험지 추가 시 순차 구축**:
+   - `TestPapers/100회`, `101회`, `102회` 폴더에 문제지·해답지 PDF가 추가되면 `quizData_102.js`, `quizData_101.js`, `quizData_100.js` 순으로 구축 및 드롭다운 연동.
 
 ---
 
 ## 📝 히스토리 및 작업 로그
+- **2026-11-08 (4차 업데이트 — Firebase `https://hanja-world.web.app` 7개 회차 재배포 및 GitHub 원격 백업 Push 완료)**:
+  - `firebase deploy --only hosting`을 통해 총 7개 회차(326문항)와 `📝 맞춤시험지·요점노트` 생성기를 `https://hanja-world.web.app` 라이브 서버에 정식 배포 완료.
+  - GitHub 원격 저장소(`https://github.com/joocorea/Hanja.git`) `main` 브랜치에 최신 소스 및 PDF 자료 전수 백업 Push 완료.
+- **2026-11-08 (3차 업데이트 — 제111회 정규 50문항 전수 구축 `quizData_111_full.js` 및 7개 회차 연동 완료)**:
+  - `TestPapers/111회/111회_정규_준4급_가형_260523_문제.pdf` 및 정답 PDF를 전수 판독하여 [`quizData_111_full.js`](file:///d:/Sandbox/Hanja/quizData_111_full.js) 생성 완료.
+  - 기존 [`quizData.js`](file:///d:/Sandbox/Hanja/quizData.js)의 43번(`和右`), 45번(`賣國` 술목관계) 문항도 공식 PDF 원문과 100% 일치하도록 보정하고, 상단 드롭다운(`#roundSelect`) 및 영구 보관소(`PaperVault`)에 `111_full` 회차를 추가하여 총 7개 회차(326문항) 연동 완료.
+- **2026-11-08 (2차 업데이트 & 새 대화창 인수인계 백업 — 「💡 핵심 요점 정리 노트」 초고밀도 컴팩트 개편 및 수기 메모 빈칸 적용 완료)**:
+  - 사용자 피드백 이미지를 반영하여 요점 정리 노트 표에서 `확인(☐)` | `핵심 한자(한자+훈음)` | `선생님 한 줄 핵심 요점([핵심요점] 설명 + ✏️ 나의 암기 메모: 수기 필기용 빈칸 밑줄)`만 남기고 나머지 중복 요소를 모두 제거.
+  - 셀 패딩과 간격을 압축하여 A4 한 페이지에 기존 대비 2.5~3배 많은 문항이 수록되도록 고밀도 최적화 완료.
+- **2026-11-08 (1차 업데이트 — 「📝 맞춤시험지·요점노트」 실전 종이 시험지 생성기 및 영구 보존 데이터화 완료)**:
+  - 각 회차의 문항 번호를 선택(번호 칩 클릭 / `1, 5, 12-15` 직접 입력 / 오답 자동 선별 / 문제 카드 내 `📝 시험지 담기`)하면 대한검정회 준4급 스타일 **실전 A4 2단 종이 시험지**와 **간략 요점 정리 노트**를 즉시 생성·인쇄하는 기능([`index.html`](file:///d:/Sandbox/Hanja/index.html), [`app.js`](file:///d:/Sandbox/Hanja/app.js), [`style.css`](file:///d:/Sandbox/Hanja/style.css)) 구현 완료.
+  - 선택 문항 데이터와 사용자 맞춤 암기 메모, 시험지 프리셋이 지워지지 않도록 `navigator.storage.persist()`, `localStorage` 이중 키, `IndexedDB` 자동 복원 및 `.json`/`.md` 파일 백업 시스템을 적용 완료.
+- **2026-11-07 (일일 최종 마감 완료 — 제103회 가형·가-1형, 제104회, 제105회 총 200문항 구축 및 Firebase 6개 회차 배포 완료)**:
+  - 오늘 하루 동안 **제105회(50문항)**, **제104회(50문항)**, **제103회 가형(50문항)**, **제103회 가-1형(50문항)** 총 **4개 기출 세트(200문항)**를 전수 판독·전산화하고, 상단 회차 스위처를 **드롭다운(`#roundSelect`)**으로 개편하여 기존 106회(50문항)·111회(26문항)와 함께 총 **6개 회차(276문항)**를 `https://hanja-world.web.app` 라이브 서버에 배포 완료.
+  - 다음 세션 이어달리기를 위한 남은 과제(TODO) 정리 및 일일 마감 백업 완료.
+- **2026-11-07 (4차 업데이트 — Firebase Hosting `https://hanja-world.web.app` 6개 회차 라이브 재배포 완료)**:
+  - 제103회(가형 50문항 · 가-1형 50문항), 제104회(50문항), 제105회(50문항), 제106회(50문항), 제111회(오답 26문항) 총 6개 회차(276문항)를 `firebase deploy --only hosting`으로 `https://hanja-world.web.app` 라이브 서버에 정식 배포 완료.
+- **2026-11-07 (3차 업데이트 — 제103회 가형 & 가-1형 총 100문항 전수 구축 및 6개 회차 드롭다운 연동 완료)**:
+  - `TestPapers/103회` 내 `대한검정회 준4급 103회(문제).pdf`(가형 50문항)와 `대한검정회 준4급 103회(가-1)(문제).pdf`(가-1형 50문항) 두 세트를 모두 전수 판독하여 [`quizData_103.js`](file:///d:/Sandbox/Hanja/quizData_103.js) 및 [`quizData_103_1.js`](file:///d:/Sandbox/Hanja/quizData_103_1.js) 생성 완료.
+  - [`index.html`](file:///d:/Sandbox/Hanja/index.html) 및 [`app.js`](file:///d:/Sandbox/Hanja/app.js)의 회차 선택 드롭다운(`#roundSelect`)에 `제103회 - 가형(50문항)` 및 `제103회 - 가-1형(50문항)`을 추가하여 총 6개 회차(276문항) 연동 완료.
+- **2026-11-07 (2차 업데이트 — 제104회 50문항 전수 구축 및 4개 회차 드롭다운 연동 완료)**:
+  - `TestPapers/104회` 내 문제지·해답지 PDF 50문항 전수 판독 및 [`quizData_104.js`](file:///d:/Sandbox/Hanja/quizData_104.js) 생성 완료 (훈음·자형 특훈 18문항, 어휘·독음 특훈 27문항, 기타 5문항).
+  - [`index.html`](file:///d:/Sandbox/Hanja/index.html) 및 [`app.js`](file:///d:/Sandbox/Hanja/app.js)의 회차 선택 드롭다운(`#roundSelect`)에 `제104회 기출 학습 (전체 50문항 실전 풀이)` 추가 및 연동 완료.
+- **2026-11-07 (세션 백업 — 제105회 50문항 구축, 드롭다운 회차 선택기 개편 및 Firebase 배포 완료)**:
+  - `TestPapers/105회` 내 문제지·해답지 PDF 50문항 전수 판독 및 [`quizData_105.js`](file:///d:/Sandbox/Hanja/quizData_105.js) 생성 완료 (훈음·자형 특훈 19문항, 어휘·독음 특훈 27문항, 기타 4문항).
+  - 상단 회차 선택 바를 다회차 확장에 최적화된 **드롭다운(`#roundSelect`) + 동적 배지(`#roundSelectBadge`)** 형식으로 개편([`index.html`](file:///d:/Sandbox/Hanja/index.html), [`style.css`](file:///d:/Sandbox/Hanja/style.css), [`app.js`](file:///d:/Sandbox/Hanja/app.js))하고 `https://hanja-world.web.app` 라이브 서버에 배포 완료.
+  - 다음 새 채팅에서 이어서 진행할 `TestPapers/` 신규 회차 목록(`104회`, `103회`, `100~102회`, `111회 정규 PDF`)을 TODO에 기록 완료.
+- **2026-11-06 (일일 최종 마감 — Firebase Hosting `hanja-world` 라이브 배포 완료)**:
+  - [`firebase.json`](file:///d:/Sandbox/Hanja/firebase.json) 및 [`.firebaserc`](file:///d:/Sandbox/Hanja/.firebaserc) 설정을 구성하고 불필요 폴더(`.git/**`, `TestPapers/**`, 문서 파일)를 제외한 웹앱 핵심 파일 5종을 `https://hanja-world.web.app` 에 정식 배포 완료.
 - **2026-11-06 (전원 차단 복구 및 「🖨️ 요약프린트」 Part 1/Part 2 개별 인쇄·3번 쓰기장 업그레이드 완료)**:
   - 갑작스러운 PC 전원 차단으로 `0x00`(NULL 바이트) 손상되었던 [`style.css`](file:///d:/Sandbox/Hanja/style.css)를 트랜스크립트 기록으로부터 100% 무결성 복구(`2,405`줄, `0` NULL 바이트).
   - 전원 차단 직전 요청되었던 `🖨️ 요약프린트` PART 2 개편(번호·유형 및 오답함정 열 제거 ➔ 한자·훈음 3번 따라 쓰기 칸 적용)과 PART 1 / PART 2 개별 선택·인쇄 기능([`index.html`](file:///d:/Sandbox/Hanja/index.html), [`app.js`](file:///d:/Sandbox/Hanja/app.js), [`style.css`](file:///d:/Sandbox/Hanja/style.css))까지 누락 없이 완성.

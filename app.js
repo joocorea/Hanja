@@ -1,5 +1,9 @@
 /**
  * 안태주의 한자 준4급 기출 학습 & 오답 정복 클리닉 - 애플리케이션 메인 로직
+ * - 제111회 가형 (정규 실전 기출 50문항 전수 학습)
+ * - 제103회 가형 / 가-1형 (실전 기출 50문항 전수 학습)
+ * - 제104회 (실전 기출 50문항 전수 학습)
+ * - 제105회 (실전 기출 50문항 전수 학습)
  * - 제106회 (실전 기출 50문항 전수 학습)
  * - 제111회 (오답 26문항 집중 클리닉)
  */
@@ -8,10 +12,72 @@
 // 1. 회차별 데이터 및 전역 상태 관리 (State Management)
 // ==========================================
 const ROUNDS_CONFIG = {
+  '111_full': {
+    id: '111_full',
+    title: '대한검정회 준4급 제111회 가형 실전 기출 (50문항)',
+    badgePrefix: '제111회(50문항)',
+    selectBadgeText: 'NEW',
+    selectBadgeClass: 'round-badge new',
+    allTabLabel: '전체 문제',
+    confusedTabLabel: '훈음·자형 특훈',
+    compoundTabLabel: '어휘·독음 특훈',
+    flashcardTitle: '📖 제111회(가형) 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_111_FULL !== 'undefined' ? QUIZ_DATA_111_FULL : [])
+  },
+  '103': {
+    id: '103',
+    title: '대한검정회 준4급 제103회 가형 실전 기출 (50문항)',
+    badgePrefix: '제103회(가)',
+    selectBadgeText: 'NEW',
+    selectBadgeClass: 'round-badge new',
+    allTabLabel: '전체 문제',
+    confusedTabLabel: '훈음·자형 특훈',
+    compoundTabLabel: '어휘·독음 특훈',
+    flashcardTitle: '📖 제103회(가형) 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_103 !== 'undefined' ? QUIZ_DATA_103 : [])
+  },
+  '103_1': {
+    id: '103_1',
+    title: '대한검정회 준4급 제103회 가-1형 실전 기출 (50문항)',
+    badgePrefix: '제103회(가-1)',
+    selectBadgeText: 'NEW',
+    selectBadgeClass: 'round-badge new',
+    allTabLabel: '전체 문제',
+    confusedTabLabel: '훈음·자형 특훈',
+    compoundTabLabel: '어휘·독음 특훈',
+    flashcardTitle: '📖 제103회(가-1형) 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_103_1 !== 'undefined' ? QUIZ_DATA_103_1 : [])
+  },
+  '104': {
+    id: '104',
+    title: '대한검정회 준4급 제104회 실전 기출 (50문항)',
+    badgePrefix: '제104회',
+    selectBadgeText: '기출',
+    selectBadgeClass: 'round-badge exam',
+    allTabLabel: '전체 문제',
+    confusedTabLabel: '훈음·자형 특훈',
+    compoundTabLabel: '어휘·독음 특훈',
+    flashcardTitle: '📖 제104회 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_104 !== 'undefined' ? QUIZ_DATA_104 : [])
+  },
+  '105': {
+    id: '105',
+    title: '대한검정회 준4급 제105회 실전 기출 (50문항)',
+    badgePrefix: '제105회',
+    selectBadgeText: '기출',
+    selectBadgeClass: 'round-badge exam',
+    allTabLabel: '전체 문제',
+    confusedTabLabel: '훈음·자형 특훈',
+    compoundTabLabel: '어휘·독음 특훈',
+    flashcardTitle: '📖 제105회 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_105 !== 'undefined' ? QUIZ_DATA_105 : [])
+  },
   '106': {
     id: '106',
     title: '대한검정회 준4급 제106회 실전 기출 (50문항)',
     badgePrefix: '제106회',
+    selectBadgeText: '기출',
+    selectBadgeClass: 'round-badge exam',
     allTabLabel: '전체 문제',
     confusedTabLabel: '훈음·자형 특훈',
     compoundTabLabel: '어휘·독음 특훈',
@@ -22,6 +88,8 @@ const ROUNDS_CONFIG = {
     id: '111',
     title: '대한검정회 준4급 제111회 오답 클리닉 (26문항)',
     badgePrefix: '제111회',
+    selectBadgeText: '클리닉',
+    selectBadgeClass: 'round-badge clinic',
     allTabLabel: '전체 오답',
     confusedTabLabel: '자형 혼동 특훈',
     compoundTabLabel: '어휘·독음 특훈',
@@ -45,7 +113,7 @@ const COMPOUND_CATEGORIES = [
 ];
 
 const state = {
-  currentRound: '106',         // 기본 시작 회차: '106' 또는 '111'
+  currentRound: '111_full',    // 기본 시작 회차: '111_full', '103', '103_1', '104', '105', '106', '111'
   currentMode: 'all',          // 'all', 'confused', 'compound', 'wrong_note', 'flashcards'
   activeQuestions: [],         // 현재 모드에서 풀고 있는 문제 배열
   currentIndex: 0,             // 현재 문제 인덱스
@@ -61,6 +129,11 @@ const state = {
     part: 'both',              // 'both'(Part 1+2 함께), 'part1'(Part 1만), 'part2'(Part 2만)
     scope: 'weak',             // 'weak'(핵심 오답·함정), 'confused'(짝꿍·자형 혼동), 'all'(전체 요약)
     maskAnswer: false          // false(훈음 표시: 보고 쓰기), true(훈음 빈칸: 외워 쓰기)
+  },
+  paperExamOptions: {          // 맞춤 종이 시험지 & 요점 노트 뷰 설정
+    roundScope: 'current',     // 'current'(현재 회차 선택 문항만), 'all_rounds'(전 회차 선택 문항 통합)
+    docType: 'exam_and_note',  // 'exam_and_note'(시험지+요점노트+정답표), 'exam_only'(시험지만), 'note_only'(요점노트만)
+    numbering: 'original'      // 'original'(원래 문항 번호 유지), 'sequential'(1번부터 순번 부여)
   }
 };
 
@@ -239,6 +312,220 @@ function removeSolvedFromWrongNote(roundId, questionNumber) {
 }
 
 // ==========================================
+// 2.5. 맞춤형 종이 시험지 & 요점 노트 영구 금고 (Vault & IndexedDB 이중 백업)
+// ==========================================
+const PAPER_VAULT_STORAGE_KEY = 'taeju_hanja_paper_exam_vault_v1';
+const PAPER_VAULT_BACKUP_KEY = 'taeju_hanja_paper_exam_vault_backup_v1';
+const PAPER_IDB_NAME = 'TaejuHanjaPermanentDB';
+const PAPER_IDB_STORE = 'paperVaultStore';
+
+/**
+ * 영구 보관소(Vault) 기본 구조를 생성합니다.
+ */
+function createDefaultPaperVault() {
+  return {
+    version: 1,
+    updatedAt: new Date().toISOString(),
+    selectedByRound: {
+      '111_full': [],
+      '103': [],
+      '103_1': [],
+      '104': [],
+      '105': [],
+      '106': [],
+      '111': []
+    },
+    customNotes: {},     // { '103_14': '사용자가 직접 수정/추가한 나만의 한 줄 요점 메모' }
+    savedExams: []       // [{ id, title, createdAt, selections: { '103': [1, 5] }, totalCount }]
+  };
+}
+
+/**
+ * 브라우저 영구 저장소(navigator.storage.persist) 권한을 요청하고 IndexedDB와 동기화합니다.
+ */
+function initPermanentPaperStorage() {
+  try {
+    if (navigator.storage && navigator.storage.persist) {
+      navigator.storage.persist().catch(() => {});
+    }
+  } catch (e) {
+    // 무시
+  }
+
+  // 만약 localStorage가 비어 있는데 IndexedDB에 백업이 있다면 자동 복원
+  restorePaperVaultFromIndexedDBIfNeeded();
+}
+
+/**
+ * IndexedDB에 Vault 스냅샷을 비동기로 이중 백업합니다.
+ */
+function backupPaperVaultToIndexedDB(vaultData) {
+  try {
+    if (!window.indexedDB) return;
+    const req = window.indexedDB.open(PAPER_IDB_NAME, 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(PAPER_IDB_STORE)) {
+        db.createObjectStore(PAPER_IDB_STORE, { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = (e) => {
+      const db = e.target.result;
+      const tx = db.transaction(PAPER_IDB_STORE, 'readwrite');
+      const store = tx.objectStore(PAPER_IDB_STORE);
+      store.put({ id: 'main_vault', data: vaultData, savedAt: new Date().toISOString() });
+    };
+  } catch (e) {
+    // IndexedDB 사용 불가 환경 무시
+  }
+}
+
+/**
+ * localStorage 데이터가 유실되었을 때 IndexedDB에서 자동으로 복구합니다.
+ */
+function restorePaperVaultFromIndexedDBIfNeeded() {
+  try {
+    const hasPrimary = localStorage.getItem(PAPER_VAULT_STORAGE_KEY);
+    if (hasPrimary) return;
+    if (!window.indexedDB) return;
+
+    const req = window.indexedDB.open(PAPER_IDB_NAME, 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(PAPER_IDB_STORE)) {
+        db.createObjectStore(PAPER_IDB_STORE, { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(PAPER_IDB_STORE)) return;
+      const tx = db.transaction(PAPER_IDB_STORE, 'readonly');
+      const store = tx.objectStore(PAPER_IDB_STORE);
+      const getReq = store.get('main_vault');
+      getReq.onsuccess = () => {
+        if (getReq.result && getReq.result.data) {
+          const serialized = JSON.stringify(getReq.result.data);
+          localStorage.setItem(PAPER_VAULT_STORAGE_KEY, serialized);
+          localStorage.setItem(PAPER_VAULT_BACKUP_KEY, serialized);
+          updateHeaderAndTabCounts();
+        }
+      };
+    };
+  } catch (e) {
+    // 무시
+  }
+}
+
+/**
+ * 영구 보관소(Paper Vault) 데이터를 불러옵니다.
+ */
+function loadPaperVault() {
+  try {
+    const raw = localStorage.getItem(PAPER_VAULT_STORAGE_KEY) || localStorage.getItem(PAPER_VAULT_BACKUP_KEY);
+    const base = createDefaultPaperVault();
+    if (!raw) return base;
+    const parsed = JSON.parse(raw);
+    return {
+      ...base,
+      ...parsed,
+      selectedByRound: {
+        ...base.selectedByRound,
+        ...(parsed.selectedByRound || {})
+      },
+      customNotes: {
+        ...(parsed.customNotes || {})
+      },
+      savedExams: Array.isArray(parsed.savedExams) ? parsed.savedExams : []
+    };
+  } catch (e) {
+    return createDefaultPaperVault();
+  }
+}
+
+/**
+ * 영구 보관소(Paper Vault) 데이터를 localStorage(주/예비 키) 및 IndexedDB에 동시 저장합니다.
+ */
+function savePaperVault(vault) {
+  try {
+    vault.updatedAt = new Date().toISOString();
+    // 각 회차 번호 오름차순 정렬 및 중복 제거
+    Object.keys(vault.selectedByRound).forEach(rId => {
+      const arr = Array.isArray(vault.selectedByRound[rId]) ? vault.selectedByRound[rId] : [];
+      vault.selectedByRound[rId] = Array.from(new Set(arr.map(Number).filter(n => n > 0))).sort((a, b) => a - b);
+    });
+    const serialized = JSON.stringify(vault);
+    localStorage.setItem(PAPER_VAULT_STORAGE_KEY, serialized);
+    localStorage.setItem(PAPER_VAULT_BACKUP_KEY, serialized);
+    backupPaperVaultToIndexedDB(vault);
+  } catch (e) {
+    // 스토리지 제한 시 무시
+  }
+}
+
+/**
+ * 특정 회차에서 종이 시험지용으로 선택된 문항 번호 배열을 반환합니다.
+ */
+function getSelectedPaperNumbers(roundId) {
+  const vault = loadPaperVault();
+  return vault.selectedByRound[roundId] || [];
+}
+
+/**
+ * 전체 회차에 걸쳐 선택된 총 문항 수를 반환합니다.
+ */
+function getTotalSelectedPaperCount() {
+  const vault = loadPaperVault();
+  return Object.values(vault.selectedByRound).reduce(
+    (acc, arr) => acc + (Array.isArray(arr) ? arr.length : 0),
+    0
+  );
+}
+
+/**
+ * 특정 회차의 문항 번호를 종이 시험지 선택 목록에 토글(추가/제거)합니다.
+ */
+function togglePaperQuestionSelection(roundId, questionNumber, forceState = null) {
+  const vault = loadPaperVault();
+  const list = new Set(vault.selectedByRound[roundId] || []);
+  const qNum = Number(questionNumber);
+
+  const shouldAdd = forceState !== null ? forceState : !list.has(qNum);
+  if (shouldAdd) {
+    list.add(qNum);
+  } else {
+    list.delete(qNum);
+  }
+
+  vault.selectedByRound[roundId] = Array.from(list).sort((a, b) => a - b);
+  savePaperVault(vault);
+  updateHeaderAndTabCounts();
+  return shouldAdd;
+}
+
+/**
+ * 문항별 사용자 맞춤 요점 메모를 저장합니다.
+ */
+function saveCustomQuestionSummaryNote(roundId, questionNumber, noteText) {
+  const vault = loadPaperVault();
+  const key = `${roundId}_${questionNumber}`;
+  const trimmed = (noteText || '').trim();
+  if (trimmed) {
+    vault.customNotes[key] = trimmed;
+  } else {
+    delete vault.customNotes[key];
+  }
+  savePaperVault(vault);
+}
+
+/**
+ * 문항별 사용자 맞춤 요점 메모를 가져옵니다.
+ */
+function getCustomQuestionSummaryNote(roundId, questionNumber) {
+  const vault = loadPaperVault();
+  return vault.customNotes[`${roundId}_${questionNumber}`] || '';
+}
+
+// ==========================================
 // 3. Web Audio API 사운드 합성기 (Synthesizer)
 // ==========================================
 let audioContext = null;
@@ -315,8 +602,8 @@ function playFanfare() {
 // 4. DOM 요소 캐싱
 // ==========================================
 const DOM = {
-  roundBtn106: document.getElementById('roundBtn106'),
-  roundBtn111: document.getElementById('roundBtn111'),
+  roundSelect: document.getElementById('roundSelect'),
+  roundSelectBadge: document.getElementById('roundSelectBadge'),
   examHeaderTitle: document.getElementById('examHeaderTitle'),
   tabAll: document.getElementById('tabAll'),
   tabConfused: document.getElementById('tabConfused'),
@@ -325,6 +612,8 @@ const DOM = {
   tabFlashcard: document.getElementById('tabFlashcard'),
   tabReport: document.getElementById('tabReport'),
   tabPrintView: document.getElementById('tabPrintView'),
+  tabPaperExam: document.getElementById('tabPaperExam'),
+  countPaperSelected: document.getElementById('countPaperSelected'),
   tabAllLabel: document.getElementById('tabAllLabel'),
   tabConfusedLabel: document.getElementById('tabConfusedLabel'),
   tabCompoundLabel: document.getElementById('tabCompoundLabel'),
@@ -357,8 +646,35 @@ const DOM = {
   btnResetTelemetry: document.getElementById('btnResetTelemetry'),
   btnStartWeakClinic: document.getElementById('btnStartWeakClinic'),
   openReportFromCompletionBtn: document.getElementById('openReportFromCompletionBtn'),
+  btnOpenPaperExamFromReport: document.getElementById('btnOpenPaperExamFromReport'),
   btnOpenPrintViewFromReport: document.getElementById('btnOpenPrintViewFromReport'),
   printSheetView: document.getElementById('printSheetView'),
+  paperExamView: document.getElementById('paperExamView'),
+  paperTotalSelectedBadge: document.getElementById('paperTotalSelectedBadge'),
+  btnSavePaperPreset: document.getElementById('btnSavePaperPreset'),
+  btnExportPaperJson: document.getElementById('btnExportPaperJson'),
+  btnImportPaperJson: document.getElementById('btnImportPaperJson'),
+  btnDownloadPaperMd: document.getElementById('btnDownloadPaperMd'),
+  paperJsonFileInput: document.getElementById('paperJsonFileInput'),
+  paperCurrentRoundLabel: document.getElementById('paperCurrentRoundLabel'),
+  paperCurrentRoundCount: document.getElementById('paperCurrentRoundCount'),
+  btnPaperSelectWrong: document.getElementById('btnPaperSelectWrong'),
+  btnPaperSelectConfused: document.getElementById('btnPaperSelectConfused'),
+  btnPaperSelectAll: document.getElementById('btnPaperSelectAll'),
+  btnPaperClearRound: document.getElementById('btnPaperClearRound'),
+  paperDirectNumberInput: document.getElementById('paperDirectNumberInput'),
+  btnApplyDirectNumbers: document.getElementById('btnApplyDirectNumbers'),
+  paperNumGrid: document.getElementById('paperNumGrid'),
+  paperPresetsBar: document.getElementById('paperPresetsBar'),
+  paperPresetsList: document.getElementById('paperPresetsList'),
+  paperScopeRoundGroup: document.getElementById('paperScopeRoundGroup'),
+  paperDocTypeGroup: document.getElementById('paperDocTypeGroup'),
+  paperNumberingGroup: document.getElementById('paperNumberingGroup'),
+  btnPrintPaperExamOnly: document.getElementById('btnPrintPaperExamOnly'),
+  btnPrintPaperNoteOnly: document.getElementById('btnPrintPaperNoteOnly'),
+  btnPrintPaperCurrentView: document.getElementById('btnPrintPaperCurrentView'),
+  paperExamA4Sheet: document.getElementById('paperExamA4Sheet'),
+  quizPaperPickBtn: document.getElementById('quizPaperPickBtn'),
   printPartGroup: document.getElementById('printPartGroup'),
   printScopeGroup: document.getElementById('printScopeGroup'),
   printMaskGroup: document.getElementById('printMaskGroup'),
@@ -454,6 +770,12 @@ function updateHeaderAndTabCounts() {
   DOM.countConfused.textContent = confusedCount;
   DOM.countCompound.textContent = compoundCount;
   DOM.countWrongNote.textContent = wrongNoteCount;
+
+  if (DOM.countPaperSelected) {
+    const roundSelected = getSelectedPaperNumbers(state.currentRound).length;
+    const totalSelected = getTotalSelectedPaperCount();
+    DOM.countPaperSelected.textContent = roundSelected > 0 ? roundSelected : totalSelected;
+  }
 }
 
 /**
@@ -481,15 +803,28 @@ function filterQuestionsByMode(mode) {
  * 회차를 전환하고 첫 문제부터 시작합니다.
  */
 function switchRound(roundId) {
-  if (!ROUNDS_CONFIG[roundId]) return;
+  const cfg = ROUNDS_CONFIG[roundId];
+  if (!cfg) return;
   state.currentRound = roundId;
 
-  // 회차 버튼 활성화 표시
-  DOM.roundBtn106.classList.toggle('active', roundId === '106');
-  DOM.roundBtn111.classList.toggle('active', roundId === '111');
+  // 드롭다운 선택값 및 배지 동기화
+  if (DOM.roundSelect) {
+    DOM.roundSelect.value = roundId;
+  }
+  if (DOM.roundSelectBadge) {
+    DOM.roundSelectBadge.textContent = cfg.selectBadgeText || '기출';
+    DOM.roundSelectBadge.className = cfg.selectBadgeClass || 'round-badge exam';
+  }
+
+  // 만약 현재 맞춤시험지·요점노트 뷰가 열려 있다면 그대로 유지하고 해당 회차 번호판 갱신
+  if (DOM.paperExamView && DOM.paperExamView.style.display === 'block') {
+    updateHeaderAndTabCounts();
+    renderPaperExamView();
+    return;
+  }
 
   // 탭을 기본 'all'로 리셋
-  const tabs = [DOM.tabAll, DOM.tabConfused, DOM.tabCompound, DOM.tabWrongNote, DOM.tabFlashcard, DOM.tabReport, DOM.tabPrintView];
+  const tabs = [DOM.tabAll, DOM.tabConfused, DOM.tabCompound, DOM.tabWrongNote, DOM.tabFlashcard, DOM.tabReport, DOM.tabPrintView, DOM.tabPaperExam];
   tabs.forEach(t => {
     if (t) t.classList.remove('active');
   });
@@ -531,6 +866,7 @@ function initQuiz(mode = 'all') {
   DOM.flashcardsView.style.display = 'none';
   if (DOM.reportView) DOM.reportView.style.display = 'none';
   if (DOM.printSheetView) DOM.printSheetView.style.display = 'none';
+  if (DOM.paperExamView) DOM.paperExamView.style.display = 'none';
   DOM.completionView.style.display = 'none';
   DOM.questionJumpPanel.style.display = 'none';
 
@@ -594,6 +930,9 @@ function renderCurrentQuestion() {
   DOM.qNumberBadge.textContent = `${cfg.badgePrefix} #${question.number}번`;
   DOM.qCategoryBadge.textContent = question.category || '핵심 문항';
   DOM.qTypeBadge.textContent = question.type;
+
+  // 시험지 담기 버튼 상태 동기화
+  syncQuizPaperPickButton(question.number);
 
   // 힌트 초기화
   DOM.hintBox.style.display = 'none';
@@ -693,12 +1032,14 @@ function renderMistakeBanner(question) {
     return;
   }
 
-  // 3) 106회 신규 학습 문항 안내 배너
+  // 3) 신규 학습 문항 안내 배너
+  const cfg = ROUNDS_CONFIG[state.currentRound];
+  const roundLabel = cfg ? cfg.badgePrefix : `제${state.currentRound}회`;
   DOM.previousMistakeBanner.className = 'previous-mistake-banner info-banner';
   DOM.previousMistakeBanner.style.display = 'flex';
   DOM.previousMistakeBanner.innerHTML = `
     <span class="warn-icon">📘</span>
-    <span><strong>제106회 실전 기출 #${question.number}번</strong> — 어려우면 오른쪽 위 <strong>[💡 힌트 보기]</strong>를 눌러 힌트를 확인해 보세요!</span>
+    <span><strong>${roundLabel} 실전 기출 #${question.number}번</strong> — 어려우면 오른쪽 위 <strong>[💡 힌트 보기]</strong>를 눌러 힌트를 확인해 보세요!</span>
   `;
 }
 
@@ -893,6 +1234,7 @@ function showCompletionScreen() {
   DOM.flashcardsView.style.display = 'none';
   if (DOM.reportView) DOM.reportView.style.display = 'none';
   if (DOM.printSheetView) DOM.printSheetView.style.display = 'none';
+  if (DOM.paperExamView) DOM.paperExamView.style.display = 'none';
   DOM.completionView.style.display = 'block';
 
   const cfg = ROUNDS_CONFIG[state.currentRound];
@@ -932,6 +1274,7 @@ function renderFlashcards() {
   DOM.completionView.style.display = 'none';
   if (DOM.reportView) DOM.reportView.style.display = 'none';
   if (DOM.printSheetView) DOM.printSheetView.style.display = 'none';
+  if (DOM.paperExamView) DOM.paperExamView.style.display = 'none';
   DOM.flashcardsView.style.display = 'block';
 
   DOM.flashcardsGrid.innerHTML = '';
@@ -1374,10 +1717,11 @@ function renderReportView() {
   DOM.flashcardsView.style.display = 'none';
   DOM.completionView.style.display = 'none';
   if (DOM.printSheetView) DOM.printSheetView.style.display = 'none';
+  if (DOM.paperExamView) DOM.paperExamView.style.display = 'none';
   DOM.reportView.style.display = 'block';
 
   // 상단 탭 활성화 표시 동기화
-  const tabs = [DOM.tabAll, DOM.tabConfused, DOM.tabCompound, DOM.tabWrongNote, DOM.tabFlashcard, DOM.tabReport, DOM.tabPrintView];
+  const tabs = [DOM.tabAll, DOM.tabConfused, DOM.tabCompound, DOM.tabWrongNote, DOM.tabFlashcard, DOM.tabReport, DOM.tabPrintView, DOM.tabPaperExam];
   tabs.forEach(t => {
     if (t) t.classList.remove('active');
   });
@@ -1872,9 +2216,9 @@ function getPrintSheetTargetItems(report, scope) {
   if (scope === 'confused') {
     const confusedItems = report.items.filter(
       it => it.question.category === '자형 혼동' ||
-            it.question.category === '두음법칙' ||
-            it.question.category === '다음자(多音字) 독음' ||
-            it.question.category === '동음이의어'
+        it.question.category === '두음법칙' ||
+        it.question.category === '다음자(多音字) 독음' ||
+        it.question.category === '동음이의어'
     );
     return {
       items: confusedItems.length > 0 ? confusedItems : report.items,
@@ -1893,9 +2237,9 @@ function getPrintSheetTargetItems(report, scope) {
   // 아직 풀이 전이라 오답 기록이 없을 경우: 시험장 단골 함정(자형 혼동·다음자·두음법칙·동음이의어) 자동 추천
   const fallbackTrapItems = report.items.filter(
     it => it.question.category === '자형 혼동' ||
-          it.question.category === '다음자(多音字) 독음' ||
-          it.question.category === '두음법칙' ||
-          it.question.category === '동음이의어'
+      it.question.category === '다음자(多音字) 독음' ||
+      it.question.category === '두음법칙' ||
+      it.question.category === '동음이의어'
   );
 
   return {
@@ -1960,10 +2304,11 @@ function renderPrintSheetView() {
   DOM.flashcardsView.style.display = 'none';
   DOM.completionView.style.display = 'none';
   if (DOM.reportView) DOM.reportView.style.display = 'none';
+  if (DOM.paperExamView) DOM.paperExamView.style.display = 'none';
   if (DOM.printSheetView) DOM.printSheetView.style.display = 'block';
 
   // 상단 탭 활성화 동기화
-  const tabs = [DOM.tabAll, DOM.tabConfused, DOM.tabCompound, DOM.tabWrongNote, DOM.tabFlashcard, DOM.tabReport, DOM.tabPrintView];
+  const tabs = [DOM.tabAll, DOM.tabConfused, DOM.tabCompound, DOM.tabWrongNote, DOM.tabFlashcard, DOM.tabReport, DOM.tabPrintView, DOM.tabPaperExam];
   tabs.forEach(t => {
     if (t) t.classList.remove('active');
   });
@@ -2173,6 +2518,825 @@ function renderPrintAnswerKeySection(targetItems, shouldShow) {
 }
 
 // ==========================================
+// 9.7. 맞춤형 종이 시험지 & 핵심 요점 노트 생성기 (영구 데이터화)
+// ==========================================
+const CIRCLED_NUMS = ['①', '②', '③', '④'];
+
+/**
+ * 퀴즈 풀이 화면 상단의 '📝 시험지 담기' 버튼 상태를 현재 문항에 맞게 동기화합니다.
+ */
+function syncQuizPaperPickButton(questionNumber) {
+  if (!DOM.quizPaperPickBtn) return;
+  const selectedNums = getSelectedPaperNumbers(state.currentRound);
+  const isPicked = selectedNums.includes(Number(questionNumber));
+  DOM.quizPaperPickBtn.classList.toggle('is-picked', isPicked);
+  DOM.quizPaperPickBtn.innerHTML = isPicked
+    ? '✅ 시험지 수록됨'
+    : '📝 시험지 담기';
+}
+
+/**
+ * 실제 대한검정회 준4급 종이 시험지 스타일로 문항 질문문과 제시 한자를 포맷팅합니다.
+ */
+function formatPaperQuestionStem(question) {
+  const qText = question.question || '';
+  const hero = question.hero_char || '';
+
+  if (question.type === '한자의 훈음') {
+    return {
+      instruction: '다음 한자의 훈(뜻)과 음(소리)으로 바른 것은?',
+      focusBox: qText || hero,
+      isBigHanjaBox: true
+    };
+  }
+
+  if (question.type === '훈음에 맞는 한자') {
+    return {
+      instruction: '다음 훈음에 알맞은 한자를 고르시오.',
+      focusBox: qText || hero,
+      isBigHanjaBox: false
+    };
+  }
+
+  if (question.type === '어휘의 독음') {
+    return {
+      instruction: '다음 한자 어휘의 독음으로 바른 것은?',
+      focusBox: qText || hero,
+      isBigHanjaBox: true
+    };
+  }
+
+  if (question.type === '어휘의 뜻') {
+    return {
+      instruction: `다음 한자 어휘의 뜻으로 알맞은 것은?`,
+      focusBox: qText || hero,
+      isBigHanjaBox: true
+    };
+  }
+
+  // 문장 속 어휘 독음이나 한자 표기 등 일반 문항
+  return {
+    instruction: qText,
+    focusBox: (hero && !qText.includes(hero) && hero.length <= 6) ? hero : '',
+    isBigHanjaBox: false
+  };
+}
+
+/**
+ * 개별 문항을 간략하게 정리한 요점 노트 데이터 구조(Key Point Summary Data)로 변환합니다.
+ */
+function buildConciseSummaryNoteData(roundId, question) {
+  const cfg = ROUNDS_CONFIG[roundId];
+  const { targetHanja, targetHuneum, subDetail } = extractTargetHanjaAndHuneum(question);
+  const correctOptText = question.options[question.correct_answer - 1] || '';
+  const customMemo = getCustomQuestionSummaryNote(roundId, question.number);
+
+  // 핵심 한 줄 요약 생성 (가장 중요한 첫 문장 추출 또는 압축)
+  const rawAnalysis = question.analysis || '';
+  const concisePoint = rawAnalysis
+    .split(/(?<=[.!?])\s+/)
+    .slice(0, 2)
+    .join(' ');
+
+  const comparisonPairs = Array.isArray(question.comparison)
+    ? question.comparison.map(c => ({ char: c.char, desc: c.desc }))
+    : [];
+
+  return {
+    id: `${roundId}_${question.number}`,
+    roundId,
+    roundBadge: cfg ? cfg.badgePrefix : `제${roundId}회`,
+    number: question.number,
+    type: question.type,
+    category: question.category || question.type,
+    heroHanja: extractMainHanja(question),
+    targetHanja,
+    targetHuneum,
+    subDetail,
+    questionText: question.question,
+    options: question.options,
+    correctAnswerIndex: question.correct_answer,
+    correctAnswerCircled: CIRCLED_NUMS[question.correct_answer - 1] || `${question.correct_answer}번`,
+    correctOptionText: correctOptText,
+    concisePoint,
+    fullAnalysis: rawAnalysis,
+    comparisonPairs,
+    customMemo
+  };
+}
+
+/**
+ * 현재 설정된 회차 범위(roundScope)에 따라 선택된 문항 목록을 가져옵니다.
+ * 만약 아직 아무 번호도 선택하지 않았다면, 현재 회차의 오답 기록 문항을 기본 안내용으로 자동 점검합니다.
+ */
+function getTargetPaperExamItems() {
+  const vault = loadPaperVault();
+  const roundScope = state.paperExamOptions.roundScope || 'current';
+  const targetRoundIds = roundScope === 'all_rounds'
+    ? Object.keys(ROUNDS_CONFIG)
+    : [state.currentRound];
+
+  const result = [];
+  targetRoundIds.forEach(rId => {
+    const cfg = ROUNDS_CONFIG[rId];
+    if (!cfg) return;
+    const dataset = cfg.getQuestions();
+    const selectedNums = vault.selectedByRound[rId] || [];
+    selectedNums.forEach(num => {
+      const q = dataset.find(item => item.number === Number(num));
+      if (q) {
+        result.push({
+          roundId: rId,
+          roundBadge: cfg.badgePrefix,
+          roundTitle: cfg.title,
+          question: q,
+          summary: buildConciseSummaryNoteData(rId, q)
+        });
+      }
+    });
+  });
+
+  return result;
+}
+
+/**
+ * 상단 '📝 맞춤시험지·요점노트' 뷰를 화면에 렌더링합니다.
+ */
+function renderPaperExamView() {
+  DOM.quizMain.style.display = 'none';
+  DOM.flashcardsView.style.display = 'none';
+  DOM.completionView.style.display = 'none';
+  if (DOM.reportView) DOM.reportView.style.display = 'none';
+  if (DOM.printSheetView) DOM.printSheetView.style.display = 'none';
+  if (DOM.paperExamView) DOM.paperExamView.style.display = 'block';
+
+  // 상단 탭 활성화 표시
+  const tabs = [DOM.tabAll, DOM.tabConfused, DOM.tabCompound, DOM.tabWrongNote, DOM.tabFlashcard, DOM.tabReport, DOM.tabPrintView, DOM.tabPaperExam];
+  tabs.forEach(t => {
+    if (t) t.classList.remove('active');
+  });
+  if (DOM.tabPaperExam) DOM.tabPaperExam.classList.add('active');
+
+  // 만약 현재 회차에 선택된 문항이 0개인데 오답 기록이 존재한다면, 첫 진입 시 오답 문항을 자동 선택해 주어 편의성 향상
+  const currentSelected = getSelectedPaperNumbers(state.currentRound);
+  const totalSelected = getTotalSelectedPaperCount();
+  if (currentSelected.length === 0 && totalSelected === 0) {
+    autoSelectWrongQuestionsForCurrentRound(true);
+  }
+
+  updateHeaderAndTabCounts();
+  renderPaperNumberSelectorGrid();
+  renderPaperSavedPresetsBar();
+  syncPaperOptionPills();
+  renderPaperExamA4Document();
+}
+
+/**
+ * 옵션 필 버튼들의 활성화 상태를 동기화합니다.
+ */
+function syncPaperOptionPills() {
+  if (DOM.paperScopeRoundGroup) {
+    DOM.paperScopeRoundGroup.querySelectorAll('.print-opt-pill').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.roundscope === state.paperExamOptions.roundScope);
+    });
+  }
+  if (DOM.paperDocTypeGroup) {
+    DOM.paperDocTypeGroup.querySelectorAll('.print-opt-pill').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.doctype === state.paperExamOptions.docType);
+    });
+  }
+  if (DOM.paperNumberingGroup) {
+    DOM.paperNumberingGroup.querySelectorAll('.print-opt-pill').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.numbering === state.paperExamOptions.numbering);
+    });
+  }
+}
+
+/**
+ * 1번~50번 문항 선택 그리드 및 상태 배지를 렌더링합니다.
+ */
+function renderPaperNumberSelectorGrid() {
+  const cfg = ROUNDS_CONFIG[state.currentRound];
+  const dataset = getCurrentRoundDataset();
+  const selectedNums = getSelectedPaperNumbers(state.currentRound);
+  const totalSelected = getTotalSelectedPaperCount();
+  const wrongMap = loadSavedWrongNote(state.currentRound);
+  const telemetry = loadRoundTelemetry(state.currentRound);
+
+  if (DOM.paperCurrentRoundLabel) {
+    DOM.paperCurrentRoundLabel.textContent = `${cfg.badgePrefix} 문항 번호 선택 (클릭하여 시험지에 추가/제외)`;
+  }
+  if (DOM.paperCurrentRoundCount) {
+    DOM.paperCurrentRoundCount.textContent = `현재 회차 ${selectedNums.length}문항 선택됨`;
+  }
+  if (DOM.paperTotalSelectedBadge) {
+    DOM.paperTotalSelectedBadge.textContent = `전 회차 총 ${totalSelected}문항 영구 저장됨`;
+  }
+
+  if (!DOM.paperNumGrid) return;
+  DOM.paperNumGrid.innerHTML = '';
+
+  dataset.forEach(q => {
+    const isSelected = selectedNums.includes(q.number);
+    const rec = telemetry[q.number];
+    const hasWrongRecord = Boolean(wrongMap[q.number]) || Boolean(q.omr_marked) || Boolean(rec && rec.wrongCount > 0);
+    const mainHanja = extractMainHanja(q);
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'paper-num-chip';
+    if (isSelected) btn.classList.add('is-selected');
+    if (hasWrongRecord) btn.classList.add('has-wrong-record');
+
+    btn.innerHTML = `
+      <span class="chip-num">${q.number}번</span>
+      <span class="chip-hanja">${mainHanja}</span>
+    `;
+    btn.title = `#${q.number}번 [${q.type}] ${mainHanja} — 클릭하여 종이 시험지 선택/해제`;
+
+    btn.addEventListener('click', () => {
+      togglePaperQuestionSelection(state.currentRound, q.number);
+      renderPaperNumberSelectorGrid();
+      renderPaperExamA4Document();
+    });
+
+    DOM.paperNumGrid.appendChild(btn);
+  });
+}
+
+/**
+ * 영구 보관함에 저장된 시험지 프리셋 목록을 렌더링합니다.
+ */
+function renderPaperSavedPresetsBar() {
+  if (!DOM.paperPresetsList) return;
+  const vault = loadPaperVault();
+  const presets = vault.savedExams || [];
+
+  if (presets.length === 0) {
+    DOM.paperPresetsList.innerHTML = `
+      <span class="preset-empty-hint">아직 저장된 시험지 세트가 없습니다. 문항을 선택한 뒤 상단의 <strong>[📌 선택 세트 보관함에 저장]</strong>을 누르면 언제든 불러올 수 있습니다.</span>
+    `;
+    return;
+  }
+
+  DOM.paperPresetsList.innerHTML = presets.map(preset => `
+    <div class="preset-item-pill">
+      <button type="button" class="preset-load-btn" data-id="${preset.id}" title="클릭하면 이 시험지 문항 구성을 불러옵니다">
+        📋 <strong>${preset.title}</strong> <small>(${preset.totalCount}문항 · ${preset.dateLabel})</small>
+      </button>
+      <button type="button" class="preset-del-btn" data-id="${preset.id}" title="이 보관 세트 삭제">✕</button>
+    </div>
+  `).join('');
+
+  DOM.paperPresetsList.querySelectorAll('.preset-load-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      loadPaperExamPresetById(btn.dataset.id);
+    });
+  });
+
+  DOM.paperPresetsList.querySelectorAll('.preset-del-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      deletePaperExamPresetById(btn.dataset.id);
+    });
+  });
+}
+
+/**
+ * 현재 선택된 문항 구성을 이름을 붙여 영구 보관함에 저장합니다.
+ */
+function saveCurrentPaperExamPreset() {
+  const vault = loadPaperVault();
+  const totalCount = getTotalSelectedPaperCount();
+  if (totalCount === 0) {
+    alert('먼저 시험지에 포함할 문항 번호를 1개 이상 선택해 주세요!');
+    return;
+  }
+
+  const cfg = ROUNDS_CONFIG[state.currentRound];
+  const defaultName = `${cfg.badgePrefix} 오답 재시험 (${new Date().toISOString().slice(5, 10)})`;
+  const title = prompt('영구 보관함에 저장할 시험지·요점노트 세트 이름을 입력하세요:', defaultName);
+  if (!title) return;
+
+  const newPreset = {
+    id: `exam_${Date.now()}`,
+    title: title.trim(),
+    dateLabel: new Date().toISOString().slice(0, 10),
+    createdAt: new Date().toISOString(),
+    roundId: state.currentRound,
+    roundScope: state.paperExamOptions.roundScope,
+    selections: JSON.parse(JSON.stringify(vault.selectedByRound)),
+    totalCount
+  };
+
+  vault.savedExams.unshift(newPreset);
+  savePaperVault(vault);
+  renderPaperSavedPresetsBar();
+}
+
+/**
+ * 보관함에 저장된 프리셋을 불러옵니다.
+ */
+function loadPaperExamPresetById(presetId) {
+  const vault = loadPaperVault();
+  const target = (vault.savedExams || []).find(p => p.id === presetId);
+  if (!target) return;
+
+  vault.selectedByRound = JSON.parse(JSON.stringify(target.selections || {}));
+  savePaperVault(vault);
+
+  if (target.roundId && ROUNDS_CONFIG[target.roundId]) {
+    state.currentRound = target.roundId;
+    if (DOM.roundSelect) DOM.roundSelect.value = target.roundId;
+  }
+  if (target.roundScope) {
+    state.paperExamOptions.roundScope = target.roundScope;
+  }
+
+  updateHeaderAndTabCounts();
+  renderPaperNumberSelectorGrid();
+  syncPaperOptionPills();
+  renderPaperExamA4Document();
+}
+
+/**
+ * 보관함에 저장된 프리셋을 삭제합니다.
+ */
+function deletePaperExamPresetById(presetId) {
+  const vault = loadPaperVault();
+  const target = (vault.savedExams || []).find(p => p.id === presetId);
+  if (!target) return;
+  if (!confirm(`[${target.title}] 보관 세트를 삭제하시겠습니까?`)) return;
+
+  vault.savedExams = vault.savedExams.filter(p => p.id !== presetId);
+  savePaperVault(vault);
+  renderPaperSavedPresetsBar();
+}
+
+/**
+ * 현재 회차에서 오답 기록이 있는 문항들을 자동으로 선택합니다.
+ */
+function autoSelectWrongQuestionsForCurrentRound(silentIfEmpty = false) {
+  const dataset = getCurrentRoundDataset();
+  const wrongMap = loadSavedWrongNote(state.currentRound);
+  const telemetry = loadRoundTelemetry(state.currentRound);
+
+  const wrongNums = [];
+  dataset.forEach(q => {
+    const rec = telemetry[q.number];
+    if (wrongMap[q.number] || q.omr_marked || (rec && rec.wrongCount > 0)) {
+      wrongNums.push(q.number);
+    }
+  });
+
+  if (wrongNums.length === 0) {
+    if (!silentIfEmpty) {
+      alert('현재 회차에 기록된 웹 오답 문항이 없습니다. 종이 시험지에서 틀린 번호를 아래 번호판에서 직접 클릭하거나 입력해 주세요!');
+    }
+    return;
+  }
+
+  const vault = loadPaperVault();
+  const merged = new Set([...(vault.selectedByRound[state.currentRound] || []), ...wrongNums]);
+  vault.selectedByRound[state.currentRound] = Array.from(merged).sort((a, b) => a - b);
+  savePaperVault(vault);
+  updateHeaderAndTabCounts();
+  renderPaperNumberSelectorGrid();
+  renderPaperExamA4Document();
+}
+
+/**
+ * 현재 회차의 자형 혼동·두음법칙·다음자·동음이의어 함정 문항들을 자동 선택합니다.
+ */
+function selectConfusedQuestionsForCurrentRound() {
+  const dataset = getCurrentRoundDataset();
+  const trapNums = dataset
+    .filter(q =>
+      q.category === '자형 혼동' ||
+      q.category === '두음법칙' ||
+      q.category === '다음자(多音字) 독음' ||
+      q.category === '동음이의어'
+    )
+    .map(q => q.number);
+
+  const vault = loadPaperVault();
+  const merged = new Set([...(vault.selectedByRound[state.currentRound] || []), ...trapNums]);
+  vault.selectedByRound[state.currentRound] = Array.from(merged).sort((a, b) => a - b);
+  savePaperVault(vault);
+  updateHeaderAndTabCounts();
+  renderPaperNumberSelectorGrid();
+  renderPaperExamA4Document();
+}
+
+/**
+ * 사용자가 텍스트 입력창에 입력한 문항 번호 문자열(예: "1, 4, 7-10, 22")을 파싱하여 현재 회차에 적용합니다.
+ */
+function applyDirectNumberInputToPaperExam() {
+  if (!DOM.paperDirectNumberInput) return;
+  const raw = DOM.paperDirectNumberInput.value.trim();
+  if (!raw) {
+    alert('선택할 문항 번호를 입력해 주세요. (예: 2, 5, 11-15, 24)');
+    return;
+  }
+
+  const dataset = getCurrentRoundDataset();
+  const validSet = new Set(dataset.map(q => q.number));
+  const picked = new Set(getSelectedPaperNumbers(state.currentRound));
+
+  const tokens = raw.split(/[\s,;]+/).filter(Boolean);
+  tokens.forEach(token => {
+    if (token.includes('-') || token.includes('~')) {
+      const parts = token.split(/[-~]/).map(n => parseInt(n, 10));
+      if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+        const start = Math.min(parts[0], parts[1]);
+        const end = Math.max(parts[0], parts[1]);
+        for (let i = start; i <= end; i++) {
+          if (validSet.has(i)) picked.add(i);
+        }
+      }
+    } else {
+      const num = parseInt(token, 10);
+      if (!isNaN(num) && validSet.has(num)) {
+        picked.add(num);
+      }
+    }
+  });
+
+  const vault = loadPaperVault();
+  vault.selectedByRound[state.currentRound] = Array.from(picked).sort((a, b) => a - b);
+  savePaperVault(vault);
+  DOM.paperDirectNumberInput.value = '';
+  updateHeaderAndTabCounts();
+  renderPaperNumberSelectorGrid();
+  renderPaperExamA4Document();
+}
+
+/**
+ * 실제 A4 종이 시험지(2단 다단 레이아웃) + 간략 요점 정리 노트 + 빠른 정답표를 렌더링합니다.
+ */
+function renderPaperExamA4Document() {
+  if (!DOM.paperExamA4Sheet) return;
+  const items = getTargetPaperExamItems();
+  const cfg = ROUNDS_CONFIG[state.currentRound];
+  const docType = state.paperExamOptions.docType || 'exam_and_note';
+  const numbering = state.paperExamOptions.numbering || 'original';
+  const roundScope = state.paperExamOptions.roundScope || 'current';
+  const todayStr = new Date().toISOString().slice(0, 10);
+
+  if (items.length === 0) {
+    DOM.paperExamA4Sheet.innerHTML = `
+      <div class="paper-empty-state">
+        <div class="paper-empty-icon">📝</div>
+        <h3>종이 시험지 & 요점 노트로 만들 문항 번호를 선택해 주세요!</h3>
+        <p>위의 <strong>1번 ~ 50번 번호 버튼</strong> 중 틀렸거나 다시 시험 치고 싶은 번호를 클릭하면,<br>이곳에 실제 <strong>대한검정회 준4급 종이 시험지</strong>와 <strong>간략 요점 노트</strong>가 즉시 생성됩니다.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const showExam = (docType === 'exam_and_note' || docType === 'exam_only');
+  const showNote = (docType === 'exam_and_note' || docType === 'note_only');
+
+  const headerScopeTitle = roundScope === 'all_rounds'
+    ? `전 회차 통합 오답 재시험 (${items.length}문항)`
+    : `${cfg.badgePrefix} 맞춤형 오답 재시험 (${items.length}문항)`;
+
+  // 1) 실전 종이 시험지 영역 (2단 컬럼)
+  const examQuestionsHtml = items.map((item, idx) => {
+    const q = item.question;
+    const displayNum = numbering === 'sequential' ? `${idx + 1}` : `${q.number}`;
+    const subOriginTag = (numbering === 'sequential' || roundScope === 'all_rounds')
+      ? `<span class="pq-origin-tag">(${item.roundBadge} #${q.number}번)</span>`
+      : '';
+
+    const stem = formatPaperQuestionStem(q);
+    const focusBoxHtml = stem.focusBox
+      ? `<div class="pq-focus-box ${stem.isBigHanjaBox ? 'is-big-hanja' : ''}">${stem.focusBox}</div>`
+      : '';
+
+    // 보기 길이에 따라 1줄(4열) 또는 2줄(2열) 또는 4줄(1열) 자동 배치
+    const maxOptLen = Math.max(...q.options.map(o => (o || '').length));
+    const optGridClass = maxOptLen <= 4
+      ? 'pq-options-grid cols-4'
+      : maxOptLen <= 10
+        ? 'pq-options-grid cols-2'
+        : 'pq-options-grid cols-1';
+
+    const optionsHtml = q.options.map((opt, oIdx) => `
+      <div class="pq-option-item">
+        <span class="pq-opt-circle">${CIRCLED_NUMS[oIdx]}</span>
+        <span class="pq-opt-text">${opt}</span>
+      </div>
+    `).join('');
+
+    return `
+      <div class="paper-question-item">
+        <div class="pq-stem-line">
+          <span class="pq-num">${displayNum}.</span>
+          <span class="pq-instruction">${stem.instruction}</span>
+          ${subOriginTag}
+        </div>
+        ${focusBoxHtml}
+        <div class="${optGridClass}">
+          ${optionsHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const examSectionHtml = showExam ? `
+    <div class="paper-doc-section paper-exam-section">
+      <header class="paper-exam-banner">
+        <div class="pe-banner-left">
+          <div class="pe-org-line">대한검정회 국가공인 한자급수자격검정 대비 · 실전 재시험지</div>
+          <h1 class="pe-main-title">준4급 ${headerScopeTitle}</h1>
+        </div>
+        <table class="pe-Examinee-table">
+          <tr>
+            <th>응시급수</th>
+            <td><strong>준 4 급</strong></td>
+            <th>성 명</th>
+            <td><strong>안 태 주</strong></td>
+          </tr>
+          <tr>
+            <th>시험일자</th>
+            <td>${todayStr}</td>
+            <th>점 수</th>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / ${items.length}개 ( &nbsp;&nbsp;&nbsp;&nbsp; 점)</td>
+          </tr>
+        </table>
+      </header>
+
+      <div class="paper-exam-two-col">
+        ${examQuestionsHtml}
+      </div>
+    </div>
+  ` : '';
+
+  // 2) 간략 요점 정리 노트 영역 (빨간 동그라미 핵심 요소만 유지 + 한 페이지 최대 수록 + 수기 메모 빈칸)
+  const noteRowsHtml = items.map(item => {
+    const s = item.summary;
+
+    return `
+      <tr class="pn-row">
+        <td class="pn-col-num">
+          <span class="pn-check-only">☐</span>
+        </td>
+        <td class="pn-col-target">
+          <div class="pn-big-hanja">${s.targetHanja}</div>
+          <div class="pn-huneum">${s.targetHuneum}</div>
+        </td>
+        <td class="pn-col-summary">
+          <div class="pn-core-point">
+            <span class="pn-point-tag">핵심요점</span>
+            <span>${s.concisePoint}</span>
+          </div>
+          <div class="pn-custom-memo-row">
+            <span class="pn-memo-label">✏️ 나의 암기 메모:</span>
+            <span class="pn-memo-blank-line"></span>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+
+  const noteSectionHtml = showNote ? `
+    <div class="paper-doc-section paper-note-section ${showExam ? 'print-page-break-before' : ''}">
+      <div class="sheet-sec-header">
+        <h2>💡 핵심 요점 정리 노트 (${items.length}문항 맞춤형 압축 요약 · 영구 데이터 보관)</h2>
+        <span class="sheet-sec-count">핵심 요점을 읽고 나만의 암기 메모를 직접 손으로 적어보세요!</span>
+      </div>
+      <table class="paper-note-table">
+        <colgroup>
+          <col style="width: 6%;">
+          <col style="width: 16%;">
+          <col style="width: 78%;">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>확인</th>
+            <th>핵심 한자</th>
+            <th>선생님 한 줄 핵심 요점</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${noteRowsHtml}
+        </tbody>
+      </table>
+    </div>
+  ` : '';
+
+  // 3) 하단 채점용 빠른 정답표
+  const answerKeyHtml = showExam ? `
+    <div class="paper-doc-section paper-answer-strip">
+      <div class="sheet-sec-header">
+        <h2>✂️ 종이 시험지 채점용 빠른 정답표 (절취선 따라 접어두고 채점하세요)</h2>
+        <span class="sheet-sec-count">총 ${items.length}문항</span>
+      </div>
+      <div class="paper-ans-grid">
+        ${items.map((item, idx) => {
+          const q = item.question;
+          const label = numbering === 'sequential'
+            ? `${idx + 1}번(#${q.number})`
+            : `${item.roundBadge} #${q.number}번`;
+          return `
+            <div class="paper-ans-cell">
+              <span class="pa-num">${label}</span>
+              <strong class="pa-val">${CIRCLED_NUMS[q.correct_answer - 1]} ${q.options[q.correct_answer - 1]}</strong>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  ` : '';
+
+  DOM.paperExamA4Sheet.innerHTML = `
+    ${examSectionHtml}
+    ${noteSectionHtml}
+    ${answerKeyHtml}
+  `;
+
+  // 사용자 한 줄 메모 입력 시 즉시 영구 저장소에 반영
+  DOM.paperExamA4Sheet.querySelectorAll('.pn-memo-input').forEach(input => {
+    input.addEventListener('input', (e) => {
+      const rId = e.target.dataset.round;
+      const qNum = Number(e.target.dataset.qnum);
+      saveCustomQuestionSummaryNote(rId, qNum, e.target.value);
+    });
+  });
+}
+
+/**
+ * 특정 문서 모드('exam_only' 또는 'note_only')로 전환 후 즉시 인쇄 대화상자를 호출합니다.
+ */
+function printPaperSpecificDocType(targetDocType) {
+  state.paperExamOptions.docType = targetDocType;
+  syncPaperOptionPills();
+  renderPaperExamA4Document();
+  setTimeout(() => {
+    window.print();
+  }, 80);
+}
+
+/**
+ * 선택된 모든 회차의 종이 시험지 및 요점 정리 노트 데이터를 JSON 파일로 내보내어 영구 백업합니다.
+ */
+function exportPaperVaultJsonFile() {
+  const vault = loadPaperVault();
+  const allRoundsSummaryData = [];
+
+  Object.keys(ROUNDS_CONFIG).forEach(rId => {
+    const cfg = ROUNDS_CONFIG[rId];
+    const dataset = cfg.getQuestions();
+    const nums = vault.selectedByRound[rId] || [];
+    nums.forEach(num => {
+      const q = dataset.find(item => item.number === Number(num));
+      if (q) {
+        allRoundsSummaryData.push(buildConciseSummaryNoteData(rId, q));
+      }
+    });
+  });
+
+  const payload = {
+    dataType: 'TAEJU_HANJA_PERMANENT_PAPER_EXAM_AND_SUMMARY_VAULT',
+    exportedAt: new Date().toISOString(),
+    student: '안태주',
+    vault,
+    structuredSummaryNotes: allRoundsSummaryData
+  };
+
+  const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `안태주_맞춤시험지_요점노트_영구데이터_${dateStr}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/**
+ * JSON 백업 파일로부터 종이 시험지 & 요점 노트 영구 데이터를 불러와 복원합니다.
+ */
+function importPaperVaultJsonFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      const incomingVault = parsed.vault || parsed;
+      if (!incomingVault || !incomingVault.selectedByRound) {
+        alert('유효한 맞춤 시험지·요점노트 데이터 파일이 아닙니다.');
+        return;
+      }
+
+      const currentVault = loadPaperVault();
+      // 기존 선택 번호와 병합하여 데이터가 지워지지 않도록 보호
+      Object.keys(incomingVault.selectedByRound).forEach(rId => {
+        const merged = new Set([
+          ...(currentVault.selectedByRound[rId] || []),
+          ...(incomingVault.selectedByRound[rId] || [])
+        ]);
+        currentVault.selectedByRound[rId] = Array.from(merged).sort((a, b) => a - b);
+      });
+
+      currentVault.customNotes = {
+        ...currentVault.customNotes,
+        ...(incomingVault.customNotes || {})
+      };
+
+      const existingIds = new Set((currentVault.savedExams || []).map(x => x.id));
+      (incomingVault.savedExams || []).forEach(exam => {
+        if (!existingIds.has(exam.id)) {
+          currentVault.savedExams.push(exam);
+        }
+      });
+
+      savePaperVault(currentVault);
+      updateHeaderAndTabCounts();
+      renderPaperExamView();
+      alert('맞춤 시험지 및 요점 노트 데이터가 성공적으로 복원·병합되었습니다!');
+    } catch (err) {
+      alert('JSON 파일을 읽는 중 오류가 발생했습니다.');
+    }
+  };
+  reader.readAsText(file, 'utf-8');
+}
+
+/**
+ * 선택된 문항들의 실전 시험지와 요점 정리 노트를 마크다운(.md) 문서로 다운로드합니다.
+ */
+function downloadPaperExamAndSummaryMarkdown() {
+  const items = getTargetPaperExamItems();
+  if (items.length === 0) {
+    alert('먼저 시험지 및 요점 노트로 만들 문항 번호를 선택해 주세요!');
+    return;
+  }
+
+  const dateStr = new Date().toISOString().slice(0, 10);
+  const lines = [
+    `# 📝 안태주 학생 맞춤형 종이 재시험지 & 핵심 요점 정리 노트`,
+    ``,
+    `- **생성 일자**: ${dateStr}`,
+    `- **수록 문항 수**: 총 ${items.length}문항`,
+    ``,
+    `---`,
+    ``,
+    `## PART 1. 실전 종이 시험지`,
+    ``
+  ];
+
+  items.forEach((item, idx) => {
+    const q = item.question;
+    const s = item.summary;
+    const stem = formatPaperQuestionStem(q);
+    lines.push(`### ${idx + 1}. [${s.roundBadge} #${q.number}번] ${stem.instruction}`);
+    if (stem.focusBox) {
+      lines.push(`> **【 ${stem.focusBox} 】**`);
+    }
+    lines.push(
+      q.options.map((opt, oIdx) => `${CIRCLED_NUMS[oIdx]} ${opt}`).join('   ')
+    );
+    lines.push(``);
+  });
+
+  lines.push(`---`);
+  lines.push(``);
+  lines.push(`## PART 2. 간략 요점 정리 노트 (핵심 데이터)`);
+  lines.push(``);
+  lines.push(`| 회차·번호 | 핵심 한자 | 훈음 / 정답 | 핵심 요점 정리 | 짝꿍 비교 한자 | 나의 메모 |`);
+  lines.push(`| :---: | :---: | :--- | :--- | :--- | :--- |`);
+
+  items.forEach(item => {
+    const s = item.summary;
+    const pairsText = s.comparisonPairs.map(p => `${p.char}(${p.desc})`).join(' / ');
+    lines.push(
+      `| **${s.roundBadge} #${s.number}번** | **${s.targetHanja}** | ${s.targetHuneum} (${s.correctAnswerCircled} ${s.correctOptionText}) | ${s.concisePoint} | ${pairsText} | ${s.customMemo || '-'} |`
+    );
+  });
+
+  lines.push(``);
+  lines.push(`---`);
+  lines.push(``);
+  lines.push(`## PART 3. 채점용 정답표`);
+  lines.push(``);
+  lines.push(
+    items.map((item, idx) => `- **${idx + 1}번 (${item.roundBadge} #${item.question.number}번)**: ${item.summary.correctAnswerCircled} ${item.summary.correctOptionText}`).join('\n')
+  );
+
+  const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `안태주_맞춤종이시험지_요점노트_${dateStr.replace(/-/g, '')}.md`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ==========================================
 // 10. 캔버스 컨페티 파티클 시스템
 // ==========================================
 function fireConfetti(amount = 50) {
@@ -2236,12 +3400,15 @@ function fireConfetti(amount = 50) {
 // 11. 이벤트 리스너 등록
 // ==========================================
 function attachEventListeners() {
-  // 회차 전환 버튼 이벤트
-  DOM.roundBtn106.addEventListener('click', () => switchRound('106'));
-  DOM.roundBtn111.addEventListener('click', () => switchRound('111'));
+  // 회차 전환 드롭다운 이벤트
+  if (DOM.roundSelect) {
+    DOM.roundSelect.addEventListener('change', (e) => {
+      switchRound(e.target.value);
+    });
+  }
 
   // 탭 전환 이벤트
-  const tabs = [DOM.tabAll, DOM.tabConfused, DOM.tabCompound, DOM.tabWrongNote, DOM.tabFlashcard, DOM.tabReport, DOM.tabPrintView].filter(Boolean);
+  const tabs = [DOM.tabAll, DOM.tabConfused, DOM.tabCompound, DOM.tabWrongNote, DOM.tabFlashcard, DOM.tabReport, DOM.tabPrintView, DOM.tabPaperExam].filter(Boolean);
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -2255,11 +3422,119 @@ function attachEventListeners() {
         renderReportView();
       } else if (mode === 'print_view') {
         renderPrintSheetView();
+      } else if (mode === 'paper_exam') {
+        renderPaperExamView();
       } else {
         initQuiz(mode);
       }
     });
   });
+
+  // 맞춤 종이 시험지 & 요점 노트 컨트롤 이벤트 연결
+  if (DOM.btnOpenPaperExamFromReport) {
+    DOM.btnOpenPaperExamFromReport.addEventListener('click', renderPaperExamView);
+  }
+  if (DOM.quizPaperPickBtn) {
+    DOM.quizPaperPickBtn.addEventListener('click', () => {
+      const currentQ = state.activeQuestions[state.currentIndex];
+      if (!currentQ) return;
+      togglePaperQuestionSelection(state.currentRound, currentQ.number);
+      syncQuizPaperPickButton(currentQ.number);
+    });
+  }
+  if (DOM.btnPaperSelectWrong) {
+    DOM.btnPaperSelectWrong.addEventListener('click', () => autoSelectWrongQuestionsForCurrentRound(false));
+  }
+  if (DOM.btnPaperSelectConfused) {
+    DOM.btnPaperSelectConfused.addEventListener('click', selectConfusedQuestionsForCurrentRound);
+  }
+  if (DOM.btnPaperSelectAll) {
+    DOM.btnPaperSelectAll.addEventListener('click', () => {
+      const dataset = getCurrentRoundDataset();
+      const vault = loadPaperVault();
+      vault.selectedByRound[state.currentRound] = dataset.map(q => q.number);
+      savePaperVault(vault);
+      updateHeaderAndTabCounts();
+      renderPaperNumberSelectorGrid();
+      renderPaperExamA4Document();
+    });
+  }
+  if (DOM.btnPaperClearRound) {
+    DOM.btnPaperClearRound.addEventListener('click', () => {
+      const vault = loadPaperVault();
+      vault.selectedByRound[state.currentRound] = [];
+      savePaperVault(vault);
+      updateHeaderAndTabCounts();
+      renderPaperNumberSelectorGrid();
+      renderPaperExamA4Document();
+    });
+  }
+  if (DOM.btnApplyDirectNumbers) {
+    DOM.btnApplyDirectNumbers.addEventListener('click', applyDirectNumberInputToPaperExam);
+  }
+  if (DOM.paperDirectNumberInput) {
+    DOM.paperDirectNumberInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        applyDirectNumberInputToPaperExam();
+      }
+    });
+  }
+  if (DOM.btnSavePaperPreset) {
+    DOM.btnSavePaperPreset.addEventListener('click', saveCurrentPaperExamPreset);
+  }
+  if (DOM.btnExportPaperJson) {
+    DOM.btnExportPaperJson.addEventListener('click', exportPaperVaultJsonFile);
+  }
+  if (DOM.btnImportPaperJson && DOM.paperJsonFileInput) {
+    DOM.btnImportPaperJson.addEventListener('click', () => DOM.paperJsonFileInput.click());
+    DOM.paperJsonFileInput.addEventListener('change', (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (file) {
+        importPaperVaultJsonFile(file);
+        e.target.value = '';
+      }
+    });
+  }
+  if (DOM.btnDownloadPaperMd) {
+    DOM.btnDownloadPaperMd.addEventListener('click', downloadPaperExamAndSummaryMarkdown);
+  }
+  if (DOM.paperScopeRoundGroup) {
+    DOM.paperScopeRoundGroup.querySelectorAll('.print-opt-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.paperExamOptions.roundScope = btn.dataset.roundscope;
+        syncPaperOptionPills();
+        renderPaperExamA4Document();
+      });
+    });
+  }
+  if (DOM.paperDocTypeGroup) {
+    DOM.paperDocTypeGroup.querySelectorAll('.print-opt-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.paperExamOptions.docType = btn.dataset.doctype;
+        syncPaperOptionPills();
+        renderPaperExamA4Document();
+      });
+    });
+  }
+  if (DOM.paperNumberingGroup) {
+    DOM.paperNumberingGroup.querySelectorAll('.print-opt-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.paperExamOptions.numbering = btn.dataset.numbering;
+        syncPaperOptionPills();
+        renderPaperExamA4Document();
+      });
+    });
+  }
+  if (DOM.btnPrintPaperExamOnly) {
+    DOM.btnPrintPaperExamOnly.addEventListener('click', () => printPaperSpecificDocType('exam_only'));
+  }
+  if (DOM.btnPrintPaperNoteOnly) {
+    DOM.btnPrintPaperNoteOnly.addEventListener('click', () => printPaperSpecificDocType('note_only'));
+  }
+  if (DOM.btnPrintPaperCurrentView) {
+    DOM.btnPrintPaperCurrentView.addEventListener('click', () => window.print());
+  }
 
   // 프린트 전용 뷰(A4 요약장) 컨트롤 이벤트 연결
   if (DOM.btnOpenPrintViewFromReport) {
@@ -2410,6 +3685,7 @@ function attachEventListeners() {
 // 12. 앱 기동 (Entry Point)
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
+  initPermanentPaperStorage();
   attachEventListeners();
-  switchRound('106');
+  switchRound('111_full');
 });
