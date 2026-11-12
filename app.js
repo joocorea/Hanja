@@ -1,10 +1,11 @@
 /**
  * 안태주의 한자 준4급 기출 학습 & 오답 정복 클리닉 - 애플리케이션 메인 로직
+ * - 제112회 가형 (정규 실전 기출 50문항 전수 학습)
  * - 제111회 가형 (정규 실전 기출 50문항 전수 학습)
+ * - 제106회 / 제105회 / 제104회 (실전 기출 50문항 전수 학습)
  * - 제103회 가형 / 가-1형 (실전 기출 50문항 전수 학습)
- * - 제104회 (실전 기출 50문항 전수 학습)
- * - 제105회 (실전 기출 50문항 전수 학습)
- * - 제106회 (실전 기출 50문항 전수 학습)
+ * - 제102회 가형 (실전 기출 50문항 전수 학습)
+ * - 제101회 가형 / 가-1형 (실전 기출 50문항 전수 학습)
  * - 제111회 (오답 26문항 집중 클리닉)
  */
 
@@ -12,6 +13,18 @@
 // 1. 회차별 데이터 및 전역 상태 관리 (State Management)
 // ==========================================
 const ROUNDS_CONFIG = {
+  '112': {
+    id: '112',
+    title: '대한검정회 준4급 제112회 가형 실전 기출 (50문항)',
+    badgePrefix: '제112회(가)',
+    selectBadgeText: 'NEW',
+    selectBadgeClass: 'round-badge new',
+    allTabLabel: '전체 문제',
+    confusedTabLabel: '훈음·자형 특훈',
+    compoundTabLabel: '어휘·독음 특훈',
+    flashcardTitle: '📖 제112회(가형) 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_112 !== 'undefined' ? QUIZ_DATA_112 : [])
+  },
   '111_full': {
     id: '111_full',
     title: '대한검정회 준4급 제111회 가형 실전 기출 (50문항)',
@@ -24,41 +37,17 @@ const ROUNDS_CONFIG = {
     flashcardTitle: '📖 제111회(가형) 준4급 핵심 50문항 단어장',
     getQuestions: () => (typeof QUIZ_DATA_111_FULL !== 'undefined' ? QUIZ_DATA_111_FULL : [])
   },
-  '103': {
-    id: '103',
-    title: '대한검정회 준4급 제103회 가형 실전 기출 (50문항)',
-    badgePrefix: '제103회(가)',
-    selectBadgeText: 'NEW',
-    selectBadgeClass: 'round-badge new',
-    allTabLabel: '전체 문제',
-    confusedTabLabel: '훈음·자형 특훈',
-    compoundTabLabel: '어휘·독음 특훈',
-    flashcardTitle: '📖 제103회(가형) 준4급 핵심 50문항 단어장',
-    getQuestions: () => (typeof QUIZ_DATA_103 !== 'undefined' ? QUIZ_DATA_103 : [])
-  },
-  '103_1': {
-    id: '103_1',
-    title: '대한검정회 준4급 제103회 가-1형 실전 기출 (50문항)',
-    badgePrefix: '제103회(가-1)',
-    selectBadgeText: 'NEW',
-    selectBadgeClass: 'round-badge new',
-    allTabLabel: '전체 문제',
-    confusedTabLabel: '훈음·자형 특훈',
-    compoundTabLabel: '어휘·독음 특훈',
-    flashcardTitle: '📖 제103회(가-1형) 준4급 핵심 50문항 단어장',
-    getQuestions: () => (typeof QUIZ_DATA_103_1 !== 'undefined' ? QUIZ_DATA_103_1 : [])
-  },
-  '104': {
-    id: '104',
-    title: '대한검정회 준4급 제104회 실전 기출 (50문항)',
-    badgePrefix: '제104회',
+  '106': {
+    id: '106',
+    title: '대한검정회 준4급 제106회 실전 기출 (50문항)',
+    badgePrefix: '제106회',
     selectBadgeText: '기출',
     selectBadgeClass: 'round-badge exam',
     allTabLabel: '전체 문제',
     confusedTabLabel: '훈음·자형 특훈',
     compoundTabLabel: '어휘·독음 특훈',
-    flashcardTitle: '📖 제104회 준4급 핵심 50문항 단어장',
-    getQuestions: () => (typeof QUIZ_DATA_104 !== 'undefined' ? QUIZ_DATA_104 : [])
+    flashcardTitle: '📖 제106회 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_106 !== 'undefined' ? QUIZ_DATA_106 : [])
   },
   '105': {
     id: '105',
@@ -72,17 +61,77 @@ const ROUNDS_CONFIG = {
     flashcardTitle: '📖 제105회 준4급 핵심 50문항 단어장',
     getQuestions: () => (typeof QUIZ_DATA_105 !== 'undefined' ? QUIZ_DATA_105 : [])
   },
-  '106': {
-    id: '106',
-    title: '대한검정회 준4급 제106회 실전 기출 (50문항)',
-    badgePrefix: '제106회',
+  '104': {
+    id: '104',
+    title: '대한검정회 준4급 제104회 실전 기출 (50문항)',
+    badgePrefix: '제104회',
     selectBadgeText: '기출',
     selectBadgeClass: 'round-badge exam',
     allTabLabel: '전체 문제',
     confusedTabLabel: '훈음·자형 특훈',
     compoundTabLabel: '어휘·독음 특훈',
-    flashcardTitle: '📖 제106회 준4급 핵심 50문항 단어장',
-    getQuestions: () => (typeof QUIZ_DATA_106 !== 'undefined' ? QUIZ_DATA_106 : [])
+    flashcardTitle: '📖 제104회 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_104 !== 'undefined' ? QUIZ_DATA_104 : [])
+  },
+  '103': {
+    id: '103',
+    title: '대한검정회 준4급 제103회 가형 실전 기출 (50문항)',
+    badgePrefix: '제103회(가)',
+    selectBadgeText: '기출',
+    selectBadgeClass: 'round-badge exam',
+    allTabLabel: '전체 문제',
+    confusedTabLabel: '훈음·자형 특훈',
+    compoundTabLabel: '어휘·독음 특훈',
+    flashcardTitle: '📖 제103회(가형) 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_103 !== 'undefined' ? QUIZ_DATA_103 : [])
+  },
+  '103_1': {
+    id: '103_1',
+    title: '대한검정회 준4급 제103회 가-1형 실전 기출 (50문항)',
+    badgePrefix: '제103회(가-1)',
+    selectBadgeText: '기출',
+    selectBadgeClass: 'round-badge exam',
+    allTabLabel: '전체 문제',
+    confusedTabLabel: '훈음·자형 특훈',
+    compoundTabLabel: '어휘·독음 특훈',
+    flashcardTitle: '📖 제103회(가-1형) 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_103_1 !== 'undefined' ? QUIZ_DATA_103_1 : [])
+  },
+  '102': {
+    id: '102',
+    title: '대한검정회 준4급 제102회 가형 실전 기출 (50문항)',
+    badgePrefix: '제102회(가)',
+    selectBadgeText: 'NEW',
+    selectBadgeClass: 'round-badge new',
+    allTabLabel: '전체 문제',
+    confusedTabLabel: '훈음·자형 특훈',
+    compoundTabLabel: '어휘·독음 특훈',
+    flashcardTitle: '📖 제102회(가형) 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_102 !== 'undefined' ? QUIZ_DATA_102 : [])
+  },
+  '101': {
+    id: '101',
+    title: '대한검정회 준4급 제101회 가형 실전 기출 (50문항)',
+    badgePrefix: '제101회(가)',
+    selectBadgeText: 'NEW',
+    selectBadgeClass: 'round-badge new',
+    allTabLabel: '전체 문제',
+    confusedTabLabel: '훈음·자형 특훈',
+    compoundTabLabel: '어휘·독음 특훈',
+    flashcardTitle: '📖 제101회(가형) 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_101 !== 'undefined' ? QUIZ_DATA_101 : [])
+  },
+  '101_1': {
+    id: '101_1',
+    title: '대한검정회 준4급 제101회 가-1형 실전 기출 (50문항)',
+    badgePrefix: '제101회(가-1)',
+    selectBadgeText: 'NEW',
+    selectBadgeClass: 'round-badge new',
+    allTabLabel: '전체 문제',
+    confusedTabLabel: '훈음·자형 특훈',
+    compoundTabLabel: '어휘·독음 특훈',
+    flashcardTitle: '📖 제101회(가-1형) 준4급 핵심 50문항 단어장',
+    getQuestions: () => (typeof QUIZ_DATA_101_1 !== 'undefined' ? QUIZ_DATA_101_1 : [])
   },
   '111': {
     id: '111',
@@ -113,7 +162,7 @@ const COMPOUND_CATEGORIES = [
 ];
 
 const state = {
-  currentRound: '111_full',    // 기본 시작 회차: '111_full', '103', '103_1', '104', '105', '106', '111'
+  currentRound: '112',         // 기본 시작 회차: '112', '111_full', '106', '105', '104', '103', '103_1', '102', '101', '101_1', '111'
   currentMode: 'all',          // 'all', 'confused', 'compound', 'wrong_note', 'flashcards'
   activeQuestions: [],         // 현재 모드에서 풀고 있는 문제 배열
   currentIndex: 0,             // 현재 문제 인덱스
@@ -140,6 +189,36 @@ const state = {
 // ==========================================
 // 2. LocalStorage 오답 노트 및 학습 데이터화(Telemetry) 관리 함수
 // ==========================================
+const LAST_ROUND_STORAGE_KEY = 'taeju_hanja_last_round';
+
+/**
+ * 마지막으로 공부하던 회차를 로컬 스토리지에 저장합니다.
+ */
+function saveLastStudiedRound(roundId) {
+  try {
+    if (ROUNDS_CONFIG[roundId]) {
+      localStorage.setItem(LAST_ROUND_STORAGE_KEY, roundId);
+    }
+  } catch (e) {
+    // 스토리지 제한 시 무시
+  }
+}
+
+/**
+ * 마지막으로 공부하던 회차를 불러옵니다. (없거나 유효하지 않으면 기본값 '112' 반환)
+ */
+function loadLastStudiedRound() {
+  try {
+    const saved = localStorage.getItem(LAST_ROUND_STORAGE_KEY);
+    if (saved && ROUNDS_CONFIG[saved]) {
+      return saved;
+    }
+  } catch (e) {
+    // 무시
+  }
+  return '112';
+}
+
 /**
  * 현재 회차의 로컬 스토리지 오답 노트 키를 반환합니다.
  */
@@ -327,12 +406,16 @@ function createDefaultPaperVault() {
     version: 1,
     updatedAt: new Date().toISOString(),
     selectedByRound: {
+      '112': [],
       '111_full': [],
+      '106': [],
+      '105': [],
+      '104': [],
       '103': [],
       '103_1': [],
-      '104': [],
-      '105': [],
-      '106': [],
+      '102': [],
+      '101': [],
+      '101_1': [],
       '111': []
     },
     customNotes: {},     // { '103_14': '사용자가 직접 수정/추가한 나만의 한 줄 요점 메모' }
@@ -806,6 +889,7 @@ function switchRound(roundId) {
   const cfg = ROUNDS_CONFIG[roundId];
   if (!cfg) return;
   state.currentRound = roundId;
+  saveLastStudiedRound(roundId);
 
   // 드롭다운 선택값 및 배지 동기화
   if (DOM.roundSelect) {
@@ -2846,6 +2930,7 @@ function loadPaperExamPresetById(presetId) {
 
   if (target.roundId && ROUNDS_CONFIG[target.roundId]) {
     state.currentRound = target.roundId;
+    saveLastStudiedRound(target.roundId);
     if (DOM.roundSelect) DOM.roundSelect.value = target.roundId;
   }
   if (target.roundScope) {
@@ -3072,7 +3157,7 @@ function renderPaperExamA4Document() {
     </div>
   ` : '';
 
-  // 2) 간략 요점 정리 노트 영역 (빨간 동그라미 핵심 요소만 유지 + 한 페이지 최대 수록 + 수기 메모 빈칸)
+  // 2) 간략 요점 정리 노트 영역 (핵심 한자 크기와 동일한 한 줄 핵심 요점 표시)
   const noteRowsHtml = items.map(item => {
     const s = item.summary;
 
@@ -3090,10 +3175,6 @@ function renderPaperExamA4Document() {
             <span class="pn-point-tag">핵심요점</span>
             <span>${s.concisePoint}</span>
           </div>
-          <div class="pn-custom-memo-row">
-            <span class="pn-memo-label">✏️ 나의 암기 메모:</span>
-            <span class="pn-memo-blank-line"></span>
-          </div>
         </td>
       </tr>
     `;
@@ -3103,7 +3184,7 @@ function renderPaperExamA4Document() {
     <div class="paper-doc-section paper-note-section ${showExam ? 'print-page-break-before' : ''}">
       <div class="sheet-sec-header">
         <h2>💡 핵심 요점 정리 노트 (${items.length}문항 맞춤형 압축 요약 · 영구 데이터 보관)</h2>
-        <span class="sheet-sec-count">핵심 요점을 읽고 나만의 암기 메모를 직접 손으로 적어보세요!</span>
+        <span class="sheet-sec-count">핵심 한자와 선생님의 한 줄 핵심 요점을 한눈에 확인하세요!</span>
       </div>
       <table class="paper-note-table">
         <colgroup>
@@ -3125,34 +3206,9 @@ function renderPaperExamA4Document() {
     </div>
   ` : '';
 
-  // 3) 하단 채점용 빠른 정답표
-  const answerKeyHtml = showExam ? `
-    <div class="paper-doc-section paper-answer-strip">
-      <div class="sheet-sec-header">
-        <h2>✂️ 종이 시험지 채점용 빠른 정답표 (절취선 따라 접어두고 채점하세요)</h2>
-        <span class="sheet-sec-count">총 ${items.length}문항</span>
-      </div>
-      <div class="paper-ans-grid">
-        ${items.map((item, idx) => {
-          const q = item.question;
-          const label = numbering === 'sequential'
-            ? `${idx + 1}번(#${q.number})`
-            : `${item.roundBadge} #${q.number}번`;
-          return `
-            <div class="paper-ans-cell">
-              <span class="pa-num">${label}</span>
-              <strong class="pa-val">${CIRCLED_NUMS[q.correct_answer - 1]} ${q.options[q.correct_answer - 1]}</strong>
-            </div>
-          `;
-        }).join('')}
-      </div>
-    </div>
-  ` : '';
-
   DOM.paperExamA4Sheet.innerHTML = `
     ${examSectionHtml}
     ${noteSectionHtml}
-    ${answerKeyHtml}
   `;
 
   // 사용자 한 줄 메모 입력 시 즉시 영구 저장소에 반영
@@ -3315,15 +3371,6 @@ function downloadPaperExamAndSummaryMarkdown() {
       `| **${s.roundBadge} #${s.number}번** | **${s.targetHanja}** | ${s.targetHuneum} (${s.correctAnswerCircled} ${s.correctOptionText}) | ${s.concisePoint} | ${pairsText} | ${s.customMemo || '-'} |`
     );
   });
-
-  lines.push(``);
-  lines.push(`---`);
-  lines.push(``);
-  lines.push(`## PART 3. 채점용 정답표`);
-  lines.push(``);
-  lines.push(
-    items.map((item, idx) => `- **${idx + 1}번 (${item.roundBadge} #${item.question.number}번)**: ${item.summary.correctAnswerCircled} ${item.summary.correctOptionText}`).join('\n')
-  );
 
   const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
   const url = URL.createObjectURL(blob);
@@ -3687,5 +3734,5 @@ function attachEventListeners() {
 document.addEventListener('DOMContentLoaded', () => {
   initPermanentPaperStorage();
   attachEventListeners();
-  switchRound('111_full');
+  switchRound(loadLastStudiedRound());
 });

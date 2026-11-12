@@ -4,7 +4,7 @@
 - **목적**: 한자 시험지/학습 자료 관리, 한자 인식 및 학생 맞춤형 학습 지원 시스템
 - **작업 경로**: `d:\Sandbox\Hanja`
 - **시작일**: 2026-11-01
-- **최근 갱신일**: 2026-11-08
+- **최근 갱신일**: 2026-11-12
 - **대상 학생**: 안태주 (대한검정회 준4급 시험 대비)
 
 ---
@@ -13,23 +13,48 @@
 
 | 파일명 | 역할 및 설명 |
 | :--- | :--- |
-| [`index.html`](file:///d:/Sandbox/Hanja/index.html) | 다회차(111회 전체 50문항·103회 가형·가-1형·104회·105회·106회·111회 오답 26문항) 기출 학습, **📊 리포트** 및 **📝 맞춤시험지·요점노트 생성기** 메인 구조 |
+| [`index.html`](file:///d:/Sandbox/Hanja/index.html) | 다회차(112회·111회·106회·105회·104회·103회 가/가-1·102회·101회 가/가-1·111회 오답 26문항 등 총 11개 회차 526문항) 기출 학습 및 **📝 맞춤시험지·요점노트 생성기** 메인 구조 |
 | [`style.css`](file:///d:/Sandbox/Hanja/style.css) | 프리미엄 다크 글래스모피즘 테마, 리포트 대시보드, **실전 2단 종이 시험지 & 요점 노트 A4 인쇄(`@media print`) 최적화** 디자인 |
-| [`app.js`](file:///d:/Sandbox/Hanja/app.js) | 다회차 전환(7개 회차 총 326문항), **학습 이력 데이터화**, **맞춤형 종이 시험지 & 요점 노트 생성기(영구 보존 Vault & IndexedDB 이중 백업)** |
+| [`app.js`](file:///d:/Sandbox/Hanja/app.js) | 다회차 전환(11개 회차 총 526문항), **학습 이력 데이터화**, **맞춤형 종이 시험지 & 요점 노트 생성기(영구 보존 Vault & IndexedDB 이중 백업)** |
+| [`quizData_112.js`](file:///d:/Sandbox/Hanja/quizData_112.js) | **제112회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
 | [`quizData_111_full.js`](file:///d:/Sandbox/Hanja/quizData_111_full.js) | **제111회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자 및 기존 오답 마킹 연동) |
+| [`quizData_106.js`](file:///d:/Sandbox/Hanja/quizData_106.js) | **제106회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
+| [`quizData_105.js`](file:///d:/Sandbox/Hanja/quizData_105.js) | **제105회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
+| [`quizData_104.js`](file:///d:/Sandbox/Hanja/quizData_104.js) | **제104회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
 | [`quizData_103.js`](file:///d:/Sandbox/Hanja/quizData_103.js) | **제103회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
 | [`quizData_103_1.js`](file:///d:/Sandbox/Hanja/quizData_103_1.js) | **제103회 준4급 가-1형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
-| [`quizData_104.js`](file:///d:/Sandbox/Hanja/quizData_104.js) | **제104회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
-| [`quizData_105.js`](file:///d:/Sandbox/Hanja/quizData_105.js) | **제105회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
-| [`quizData_106.js`](file:///d:/Sandbox/Hanja/quizData_106.js) | **제106회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
+| [`quizData_102.js`](file:///d:/Sandbox/Hanja/quizData_102.js) | **제102회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
+| [`quizData_101.js`](file:///d:/Sandbox/Hanja/quizData_101.js) | **제101회 준4급 가형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
+| [`quizData_101_1.js`](file:///d:/Sandbox/Hanja/quizData_101_1.js) | **제101회 준4급 가-1형 50문항 전수 학습 데이터** (문제, 간접 유도형 힌트, 핵심 해설, 짝꿍 비교 한자) |
 | [`quizData.js`](file:///d:/Sandbox/Hanja/quizData.js) | **제111회** 안태주 학생 오답 26문항 전수 구조화 데이터 (43번 `和右`, 45번 `賣國` 정규 시험지 PDF 기준 정밀 보정 완료) |
 | [`firebase.json`](file:///d:/Sandbox/Hanja/firebase.json) / [`.firebaserc`](file:///d:/Sandbox/Hanja/.firebaserc) | **Firebase Hosting (`hanja-world`)** 라이브 배포 설정 (`https://hanja-world.web.app`) |
 | [`PROJECT_STATUS.md`](file:///d:/Sandbox/Hanja/PROJECT_STATUS.md) | 프로젝트 진행 상태, 작업 이력 및 컨텍스트 인수인계 문서 |
-| `TestPapers/` | 제103회(가형/가-1형), 제104회, 제105회, 제106회 및 제111회 기출 시험지·해답지 원본 보관 폴더 |
+| `TestPapers/` | 제101회(가/가-1), 제102회, 제103회(가/가-1), 제104회, 제105회, 제106회, 제111회 및 제112회 기출 시험지·해답지 원본 보관 폴더 |
 
 ---
 
-## 🚀 오늘(2026-11-08) 완료된 작업 (「📝 맞춤시험지·요점노트」 실전 종이 시험지 생성기 & 영구 보존 데이터화 시스템 구축)
+## 🚀 오늘(2026-11-12) 완료된 작업 (신규 기출 4개 세트 총 200문항 전수 구축·11개 회차 526문항 연동 및 요점 노트·UI 개선)
+
+1. **신규 기출 4개 세트(제112회 가형, 제102회 가형, 제101회 가형·가-1형 총 200문항) 전수 데이터화 및 11개 회차(526문항) 연동 완료 ([`quizData_112.js`](file:///d:/Sandbox/Hanja/quizData_112.js), [`quizData_102.js`](file:///d:/Sandbox/Hanja/quizData_102.js), [`quizData_101.js`](file:///d:/Sandbox/Hanja/quizData_101.js), [`quizData_101_1.js`](file:///d:/Sandbox/Hanja/quizData_101_1.js), [`index.html`](file:///d:/Sandbox/Hanja/index.html), [`app.js`](file:///d:/Sandbox/Hanja/app.js))**:
+   - **제112회 가형 50문항 ([`quizData_112.js`](file:///d:/Sandbox/Hanja/quizData_112.js))**: `TestPapers/112회/112회_정규_준4급_가형_260822_문제.pdf` 및 정답 PDF 100% 정밀 판독 완료 (훈음·자형 특훈 20문항, 어휘·독음 특훈 26문항, 기타 4문항).
+   - **제102회 가형 50문항 ([`quizData_102.js`](file:///d:/Sandbox/Hanja/quizData_102.js))**: `TestPapers/102회/대한검정회 준4급 102회(문제).pdf` 및 해답지 PDF 100% 정밀 판독 완료 (훈음·자형 특훈 15문항, 어휘·독음 특훈 30문항, 기타 5문항).
+   - **제101회 가형 50문항 ([`quizData_101.js`](file:///d:/Sandbox/Hanja/quizData_101.js))**: `TestPapers/101회/대한검정회 준4급 101회(문제).pdf` 및 해답지 PDF 100% 정밀 판독 완료 (훈음·자형 특훈 17문항, 어휘·독음 특훈 30문항, 기타 3문항).
+   - **제101회 가-1형 50문항 ([`quizData_101_1.js`](file:///d:/Sandbox/Hanja/quizData_101_1.js))**: `TestPapers/101회/대한검정회 준4급 101회(가-1)(문제).pdf` 및 해답지 PDF 100% 정밀 판독 완료 (훈음·자형 특훈 16문항, 어휘·독음 특훈 29문항, 기타 5문항).
+   - 호환용 한자(`U+F900~U+FAFF`) `0`건 정규화 완료 및 상단 드롭다운(`#roundSelect`), 영구 보관소(`PaperVault`)에 **총 11개 회차(526문항)** 전수 연동 완료.
+2. **「💡 핵심 요점 정리 노트」 가독성 개선 및 정답표 제거 ([`app.js`](file:///d:/Sandbox/Hanja/app.js), [`style.css`](file:///d:/Sandbox/Hanja/style.css), [`index.html`](file:///d:/Sandbox/Hanja/index.html))**:
+   - 오른쪽 **`선생님 한 줄 핵심 요점`** 본문(`.pn-core-point`)의 글자 크기를 왼쪽 `핵심 한자`(`.pn-big-hanja`, **`1.55rem`**)와 동일한 크기(`1.55rem`, `font-weight: 700`)로 확대하고, `[핵심요점]` 태그 배지(`.pn-point-tag`, `0.95rem`)의 비율도 이에 맞춰 조정 완료.
+   - 각 행 하단에 있던 **`✏️ 나의 암기 메모`** 빈칸 줄(`.pn-custom-memo-row`)을 제거하여 핵심 요점 설명만 큼직하고 선명하게 표시되도록 개선.
+   - 「📝 맞춤시험지·요점노트」 하단에 표시되던 **`✂️ 종이 시험지 채점용 빠른 정답표`** 영역을 완전히 제거하고, 문서 유형 버튼을 **`📑 시험지 + 요점노트`**로 정리 완료.
+3. **마지막으로 공부 중인 회차 자동 기억 기능 추가 ([`app.js`](file:///d:/Sandbox/Hanja/app.js))**:
+   - 회차를 선택할 때마다 `localStorage`(`taeju_hanja_last_round`)에 현재 공부 중인 회차를 자동 저장하고, 다음에 웹앱을 다시 열거나 새로고침할 때 마지막으로 학습하던 회차가 바로 열리도록 개선 완료.
+4. **상단 탭에서 「📊 리포트」 및 「🖨️ 요약프린트」 제거 ([`index.html`](file:///d:/Sandbox/Hanja/index.html))**:
+   - 상단 네비게이션 탭을 핵심 학습 메뉴(**`전체 문제` · `훈음·자형 특훈` · `어휘·독음 특훈` · `오답 노트` · `단어장 📖` · `📝 맞춤시험지·요점노트`**)로 간소화하고, `📊 리포트` 및 `🖨️ 요약프린트` 탭과 뷰를 제거 완료.
+5. **Firebase(`https://hanja-world.web.app`) 11개 회차(526문항) 라이브 배포 및 GitHub 원격 백업 Push 완료**:
+   - 신규 구축한 4개 회차(`quizData_112.js`, `quizData_102.js`, `quizData_101.js`, `quizData_101_1.js`)를 포함한 총 11개 회차(526문항)와 최신 UI 개선 사항을 `https://hanja-world.web.app` 라이브 서버에 배포하고, GitHub 원격 저장소(`https://github.com/joocorea/Hanja.git`)에 백업 Push 완료.
+
+---
+
+## 🚀 지난 세션(2026-11-08) 완료된 작업 (「📝 맞춤시험지·요점노트」 실전 종이 시험지 생성기 & 영구 보존 데이터화 시스템 구축)
 
 1. **회차별 문항 번호 선택 기반 「📝 맞춤시험지·요점노트」 생성기 구축 ([`index.html`](file:///d:/Sandbox/Hanja/index.html), [`app.js`](file:///d:/Sandbox/Hanja/app.js), [`style.css`](file:///d:/Sandbox/Hanja/style.css))**:
    - 상단 네비게이션 탭에 **`📝 맞춤시험지·요점노트`** 탭 및 선택 문항 수 배지(`#countPaperSelected`) 추가, 문제 풀이 카드 상단에도 **`📝 시험지 담기`** 토글 버튼 연동.
@@ -146,12 +171,26 @@
 ---
 
 ## 📋 다음 세션 남은 과제 (TODO — 새 대화창 이어달리기 1순위)
-1. **제100회 ~ 제102회 기출 시험지 추가 시 순차 구축**:
-   - `TestPapers/100회`, `101회`, `102회` 폴더에 문제지·해답지 PDF가 추가되면 `quizData_102.js`, `quizData_101.js`, `quizData_100.js` 순으로 구축 및 드롭다운 연동.
+1. **추후 신규 회차(`TestPapers/100회` 등) PDF 추가 시 순차 구축 및 연동**:
+   - `TestPapers/100회` 폴더 등에 새 시험지/해답지 PDF가 추가되면 `quizData_100.js` 구축 및 다회차 연동.
 
 ---
 
 ## 📝 히스토리 및 작업 로그
+- **2026-11-12 (3차 업데이트 — Firebase `https://hanja-world.web.app` 11개 회차 526문항 라이브 배포 및 GitHub 원격 백업 완료)**:
+  - `firebase deploy --only hosting`을 통해 신규 4개 회차(112회 가형, 102회 가형, 101회 가형·가-1형)를 포함한 총 **11개 회차(526문항)** 및 최신 UI 개선 사항을 `https://hanja-world.web.app` 라이브 서버에 정식 배포 완료.
+  - GitHub 원격 저장소(`https://github.com/joocorea/Hanja.git`) `main` 브랜치에 전체 소스 및 문서 백업 Push 완료.
+- **2026-11-12 (2차 업데이트 — 신규 기출 4개 세트 총 200문항 전수 구축 및 11개 회차 526문항 연동 완료)**:
+  - `TestPapers/112회`(가형), `TestPapers/102회`(가형), `TestPapers/101회`(가형 및 가-1형) 총 4개 세트(200문항)를 4개의 병렬 서브에이전트로 100% 정밀 판독·전산화하여 [`quizData_112.js`](file:///d:/Sandbox/Hanja/quizData_112.js), [`quizData_102.js`](file:///d:/Sandbox/Hanja/quizData_102.js), [`quizData_101.js`](file:///d:/Sandbox/Hanja/quizData_101.js), [`quizData_101_1.js`](file:///d:/Sandbox/Hanja/quizData_101_1.js) 생성 완료.
+  - [`index.html`](file:///d:/Sandbox/Hanja/index.html) 및 [`app.js`](file:///d:/Sandbox/Hanja/app.js)의 회차 선택 드롭다운(`#roundSelect`) 및 영구 보관소(`PaperVault`)에 4개 신규 회차를 연동하여 총 **11개 회차(526문항)** 체제 구축 완료.
+- **2026-11-12 (1차 업데이트 — 세션 마감 및 새 대화창 인수인계 백업 완료)**:
+  - **「💡 핵심 요점 정리 노트」 가독성 개선**: `선생님 한 줄 핵심 요점` 글자 크기를 왼쪽 `핵심 한자`(`1.55rem`)와 동일하게 확대하고 `✏️ 나의 암기 메모` 줄 제거 완료.
+  - **「📝 맞춤시험지·요점노트」 정답표 제거**: 하단 채점용 정답표 영역을 제거하고 문서 유형을 `📑 시험지 + 요점노트`로 간소화 완료.
+  - **공부 중인 회차 자동 기억**: `localStorage`(`taeju_hanja_last_round`)를 통해 다음에 앱을 열 때 마지막으로 공부하던 회차가 바로 열리도록 적용 완료.
+  - **상단 메뉴 간소화**: 상단 탭에서 `📊 리포트`와 `🖨️ 요약프린트` 탭 및 뷰를 제거하여 6개 핵심 메뉴 중심으로 정리 완료.
+- **2026-11-08 (일일 최종 마감 완료 — 「📝 맞춤시험지·요점노트」 생성기, 제111회 정규 50문항 구축 및 7개 회차 라이브 배포 완료)**:
+  - 오늘 하루 동안 ① 문항 번호 선택 기반 **실전 A4 2단 종이 시험지 & 초고밀도 수기 메모 요점 정리 노트 생성기**(`📝 맞춤시험지·요점노트`) 구축, ② 4중 영구 보존 아키텍처(`PaperVault` + `IndexedDB` 이중 백업) 적용, ③ **제111회 정규 50문항 전수 데이터([`quizData_111_full.js`](file:///d:/Sandbox/Hanja/quizData_111_full.js)) 구축 및 기존 [`quizData.js`](file:///d:/Sandbox/Hanja/quizData.js) 정밀 보정**, ④ 총 **7개 회차(326문항)** GitHub 원격 백업 및 Firebase(`https://hanja-world.web.app`) 정식 배포까지 모두 완료.
+  - 다음 세션 이어달리기를 위한 남은 과제(TODO) 정리 및 일일 마감 백업 완료.
 - **2026-11-08 (4차 업데이트 — Firebase `https://hanja-world.web.app` 7개 회차 재배포 및 GitHub 원격 백업 Push 완료)**:
   - `firebase deploy --only hosting`을 통해 총 7개 회차(326문항)와 `📝 맞춤시험지·요점노트` 생성기를 `https://hanja-world.web.app` 라이브 서버에 정식 배포 완료.
   - GitHub 원격 저장소(`https://github.com/joocorea/Hanja.git`) `main` 브랜치에 최신 소스 및 PDF 자료 전수 백업 Push 완료.

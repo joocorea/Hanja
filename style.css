@@ -3152,53 +3152,28 @@ body {
 }
 
 .pn-col-summary {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 4px 8px !important;
+  padding: 8px 12px !important;
+  vertical-align: middle !important;
 }
 
 .pn-core-point {
-  font-size: 0.8rem;
-  line-height: 1.32;
+  font-size: 1.55rem;
+  line-height: 1.35;
   color: #0F172A;
-  font-weight: 600;
+  font-weight: 700;
   word-break: keep-all;
 }
 
 .pn-point-tag {
   display: inline-block;
-  border: 1px solid #0F172A;
-  font-size: 0.68rem;
+  border: 1.5px solid #0F172A;
+  font-size: 0.95rem;
   font-weight: 800;
-  padding: 0 5px;
-  border-radius: 3px;
-  margin-right: 4px;
-  line-height: 1.25;
-}
-
-.pn-custom-memo-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 6px;
-  margin-top: 1px;
-  padding-top: 2px;
-  border-top: 1px dashed #CBD5E1;
-}
-
-.pn-memo-label {
-  font-size: 0.72rem;
-  font-weight: 800;
-  color: #334155;
-  white-space: nowrap;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 8px;
   line-height: 1.2;
-}
-
-.pn-memo-blank-line {
-  flex: 1;
-  display: inline-block;
-  height: 15px;
-  border-bottom: 1px solid #94A3B8;
+  vertical-align: middle;
 }
 
 /* PART 3: 채점용 정답표 */
